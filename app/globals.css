@@ -8,8 +8,16 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-montserrat: var(--font-montserrat);
+
+  /* Colores personalizados del proyecto */
+  --color-madera: #d7b894;
+  --color-cafe: #4a3f35;
+  --color-blanco: #f8f5f2;
+  --color-azul: #00337c;
+  --color-verde: #355e3b;
 }
 
 @media (prefers-color-scheme: dark) {
