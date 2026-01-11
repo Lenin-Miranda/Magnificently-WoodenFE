@@ -8,7 +8,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-azul dark:bg-madera text-blanco dark:text-cafe">
+    <footer className="bg-azul dark:bg-cafe text-blanco dark:text-blanco">
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
@@ -28,7 +28,7 @@ export default function Footer() {
                 Wooden
               </span>
             </Link>
-            <p className="text-sm md:text-base text-blanco/80 dark:text-cafe/80 mb-4">
+            <p className="text-sm md:text-base text-blanco/80 dark:text-madera/80 mb-4">
               Crafting beautiful wooden airplanes with passion and precision
               since 2020.
             </p>
@@ -38,7 +38,7 @@ export default function Footer() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-blanco/10 dark:bg-cafe/10 hover:bg-azul dark:hover:bg-verde flex items-center justify-center transition-colors duration-300"
+                className="w-10 h-10 rounded-full bg-blanco/10 dark:bg-madera/20 hover:bg-azul dark:hover:bg-madera flex items-center justify-center transition-colors duration-300"
                 aria-label="Facebook"
               >
                 <svg
@@ -53,7 +53,7 @@ export default function Footer() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-blanco/10 dark:bg-cafe/10 hover:bg-azul dark:hover:bg-verde flex items-center justify-center transition-colors duration-300"
+                className="w-10 h-10 rounded-full bg-blanco/10 dark:bg-madera/20 hover:bg-azul dark:hover:bg-madera flex items-center justify-center transition-colors duration-300"
                 aria-label="Instagram"
               >
                 <svg
@@ -68,7 +68,7 @@ export default function Footer() {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-blanco/10 dark:bg-cafe/10 hover:bg-azul dark:hover:bg-verde flex items-center justify-center transition-colors duration-300"
+                className="w-10 h-10 rounded-full bg-blanco/10 dark:bg-madera/20 hover:bg-azul dark:hover:bg-madera flex items-center justify-center transition-colors duration-300"
                 aria-label="Twitter"
               >
                 <svg
@@ -83,7 +83,7 @@ export default function Footer() {
                 href="https://pinterest.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-blanco/10 dark:bg-cafe/10 hover:bg-azul dark:hover:bg-verde flex items-center justify-center transition-colors duration-300"
+                className="w-10 h-10 rounded-full bg-blanco/10 dark:bg-madera/20 hover:bg-azul dark:hover:bg-madera flex items-center justify-center transition-colors duration-300"
                 aria-label="Pinterest"
               >
                 <svg
@@ -106,7 +106,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="#about"
-                  className="text-blanco/80 dark:text-cafe/80 hover:text-madera dark:hover:text-verde transition-colors duration-300"
+                  className="text-blanco/80 dark:text-madera/80 hover:text-madera dark:hover:text-madera transition-colors duration-300"
                 >
                   About Us
                 </Link>
@@ -114,7 +114,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="#products"
-                  className="text-blanco/80 dark:text-cafe/80 hover:text-madera dark:hover:text-verde transition-colors duration-300"
+                  className="text-blanco/80 dark:text-madera/80 hover:text-madera dark:hover:text-madera transition-colors duration-300"
                 >
                   Products
                 </Link>
@@ -122,7 +122,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="#process"
-                  className="text-blanco/80 dark:text-cafe/80 hover:text-madera dark:hover:text-verde transition-colors duration-300"
+                  className="text-blanco/80 dark:text-madera/80 hover:text-madera dark:hover:text-madera transition-colors duration-300"
                 >
                   Our Process
                 </Link>
@@ -130,7 +130,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="#testimonials"
-                  className="text-blanco/80 dark:text-cafe/80 hover:text-madera dark:hover:text-verde transition-colors duration-300"
+                  className="text-blanco/80 dark:text-madera/80 hover:text-madera dark:hover:text-madera transition-colors duration-300"
                 >
                   Testimonials
                 </Link>
@@ -138,7 +138,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="#contact"
-                  className="text-blanco/80 dark:text-cafe/80 hover:text-madera dark:hover:text-verde transition-colors duration-300"
+                  className="text-blanco/80 dark:text-madera/80 hover:text-madera dark:hover:text-madera transition-colors duration-300"
                 >
                   Contact
                 </Link>
@@ -155,7 +155,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/shipping"
-                  className="text-blanco/80 dark:text-cafe/80 hover:text-madera dark:hover:text-verde transition-colors duration-300"
+                  className="text-blanco/80 dark:text-madera/80 hover:text-madera dark:hover:text-madera transition-colors duration-300"
                 >
                   Shipping & Delivery
                 </Link>
@@ -163,7 +163,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/returns"
-                  className="text-blanco/80 dark:text-cafe/80 hover:text-madera dark:hover:text-verde transition-colors duration-300"
+                  className="text-blanco/80 dark:text-madera/80 hover:text-madera dark:hover:text-madera transition-colors duration-300"
                 >
                   Returns & Exchanges
                 </Link>
@@ -171,7 +171,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/faq"
-                  className="text-blanco/80 dark:text-cafe/80 hover:text-madera dark:hover:text-verde transition-colors duration-300"
+                  className="text-blanco/80 dark:text-madera/80 hover:text-madera dark:hover:text-madera transition-colors duration-300"
                 >
                   FAQ
                 </Link>
@@ -179,7 +179,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/care"
-                  className="text-blanco/80 dark:text-cafe/80 hover:text-madera dark:hover:text-verde transition-colors duration-300"
+                  className="text-blanco/80 dark:text-madera/80 hover:text-madera dark:hover:text-madera transition-colors duration-300"
                 >
                   Care Instructions
                 </Link>
@@ -187,7 +187,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/custom"
-                  className="text-blanco/80 dark:text-cafe/80 hover:text-madera dark:hover:text-verde transition-colors duration-300"
+                  className="text-blanco/80 dark:text-madera/80 hover:text-madera dark:hover:text-madera transition-colors duration-300"
                 >
                   Custom Orders
                 </Link>
@@ -200,7 +200,7 @@ export default function Footer() {
             <h3 className="text-base md:text-lg font-display font-bold mb-4">
               Contact Us
             </h3>
-            <ul className="space-y-3 text-sm md:text-base text-blanco/80 dark:text-cafe/80">
+            <ul className="space-y-3 text-sm md:text-base text-blanco/80 dark:text-madera/80">
               <li className="flex items-start gap-2">
                 <svg
                   className="w-5 h-5 mt-0.5 flex-shrink-0"
@@ -222,9 +222,9 @@ export default function Footer() {
                   />
                 </svg>
                 <span>
-                  123 Craftsman Lane
+                  6136 windmill island ave
                   <br />
-                  Woodville, WA 98765
+                  Las Vegas, NV 89139
                 </span>
               </li>
               <li className="flex items-center gap-2">
@@ -243,7 +243,7 @@ export default function Footer() {
                 </svg>
                 <a
                   href="mailto:info@magnificentlywooden.com"
-                  className="hover:text-azul dark:hover:text-verde transition-colors duration-300"
+                  className="hover:text-azul dark:hover:text-madera transition-colors duration-300"
                 >
                   info@magnificentlywooden.com
                 </a>
@@ -263,10 +263,10 @@ export default function Footer() {
                   />
                 </svg>
                 <a
-                  href="tel:+15551234567"
-                  className="hover:text-azul dark:hover:text-verde transition-colors duration-300"
+                  href="tel:+17257729492"
+                  className="hover:text-azul dark:hover:text-madera transition-colors duration-300"
                 >
-                  (555) 123-4567
+                  (725) 772-9492
                 </a>
               </li>
             </ul>
@@ -274,13 +274,13 @@ export default function Footer() {
         </div>
 
         {/* Newsletter Section */}
-        <div className="border-t border-blanco/20 dark:border-cafe/20 pt-8 mb-8">
+        <div className="border-t border-blanco/20 dark:border-madera/20 pt-8 mb-8">
           <div className="max-w-md mx-auto text-center lg:text-left lg:max-w-none lg:flex lg:items-center lg:justify-between">
             <div className="mb-4 lg:mb-0">
               <h3 className="text-base md:text-lg font-display font-bold mb-2">
                 Subscribe to Our Newsletter
               </h3>
-              <p className="text-xs md:text-sm text-blanco/80 dark:text-cafe/80">
+              <p className="text-xs md:text-sm text-blanco/80 dark:text-madera/80">
                 Get updates on new products and exclusive offers
               </p>
             </div>
@@ -288,11 +288,11 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-2 rounded-lg bg-blanco/70 dark:bg-cafe/10 border border-blanco/20 dark:border-cafe/20 text-azul dark:text-cafe placeholder:text-azul/50 dark:placeholder:text-cafe/50 focus:outline-none focus:ring-2 focus:ring-azul dark:focus:ring-verde text-sm md:text-base"
+                className="flex-1 px-4 py-2 rounded-lg bg-blanco/70 dark:bg-madera/10 border border-blanco/20 dark:border-madera/20 text-azul dark:text-blanco placeholder:text-azul/50 dark:placeholder:text-madera/50 focus:outline-none focus:ring-2 focus:ring-azul dark:focus:ring-madera text-sm md:text-base"
               />
               <button
                 type="submit"
-                className="px-6 py-2 border border-madera dark:border-verde bg-cafe dark:bg-verde text-blanco dark:text-cafe rounded-lg hover:bg-madera/90 dark:hover:bg-verde/90 transition-all duration-300 font-semibold text-sm md:text-base whitespace-nowrap"
+                className="px-6 py-2 border border-madera dark:border-madera bg-cafe dark:bg-madera text-blanco dark:text-cafe rounded-lg hover:bg-madera/90 dark:hover:bg-madera/90 transition-all duration-300 font-semibold text-sm md:text-base whitespace-nowrap"
               >
                 Subscribe
               </button>
@@ -301,24 +301,24 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-blanco/20 dark:border-cafe/20 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs md:text-sm text-blanco/80 dark:text-cafe/80">
+        <div className="border-t border-blanco/20 dark:border-madera/20 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs md:text-sm text-blanco/80 dark:text-madera/80">
           <p>© {currentYear} Magnificently Wooden. All rights reserved.</p>
           <div className="flex gap-6">
             <Link
               href="/privacy"
-              className="hover:text-azul dark:hover:text-verde transition-colors duration-300"
+              className="hover:text-azul dark:hover:text-madera transition-colors duration-300"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
-              className="hover:text-azul dark:hover:text-verde transition-colors duration-300"
+              className="hover:text-azul dark:hover:text-madera transition-colors duration-300"
             >
               Terms of Service
             </Link>
             <Link
               href="/cookies"
-              className="hover:text-azul dark:hover:text-verde transition-colors duration-300"
+              className="hover:text-azul dark:hover:text-madera transition-colors duration-300"
             >
               Cookie Policy
             </Link>

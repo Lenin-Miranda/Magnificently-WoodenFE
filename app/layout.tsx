@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "./context/CartContext";
+import { LoginProvider } from "./context/LoginContext";
 
 // Fuente para títulos (elegante)
 const playfair = Playfair_Display({
@@ -37,7 +38,9 @@ export default function RootLayout({
       <body
         className={`${playfair.variable} ${inter.variable} ${montserrat.variable} antialiased`}
       >
-        <CartProvider>{children}</CartProvider>
+        <LoginProvider>
+          <CartProvider>{children}</CartProvider>
+        </LoginProvider>
       </body>
     </html>
   );

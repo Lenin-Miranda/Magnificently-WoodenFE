@@ -34,7 +34,7 @@ export default function FeatureProducts({
               className="bg-blanco dark:bg-madera w-full min-w-[300px] max-w-[325px] px-4 py-2 shadow-md rounded-lg overflow-hidden hover:scale-105 transition-transform duration-400 flex flex-col"
             >
               <Image
-                src={product.image}
+                src={product.image || '/placeholder.jpg'}
                 alt={product.name}
                 width={300}
                 height={200}

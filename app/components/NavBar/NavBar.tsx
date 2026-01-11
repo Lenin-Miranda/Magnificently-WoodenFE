@@ -3,16 +3,21 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/app/context/CartContext";
+import { useLogin } from "@/app/context/LoginContext";
+import Link from "next/link";
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { toggleCart } = useCart();
+  const { toggleCart, isCartItems } = useCart();
+  const { user, logout } = useLogin();
 
   return (
     <>
       <nav className="w-full py-6 px-4 md:px-6 bg-blanco dark:bg-cafe shadow-sm border-b border-madera/20 flex justify-between items-center">
         <div className="text-2xl md:text-3xl font-display font-bold text-cafe dark:text-blanco tracking-tight">
-          Magnificently Wooden
+          <a href="/" className="">
+            Magnificently Wooden
+          </a>
         </div>
 
         {/* Mobile Menu Button & Cart */}
@@ -79,12 +84,52 @@ export default function NavBar() {
               About
             </li>
             <li className="text-cafe dark:text-blanco hover:text-azul dark:hover:text-verde cursor-pointer transition-all duration-300 ease-in-out hover:scale-110">
+              <Link href="/products">Products</Link>
+            </li>
+            <li className="text-cafe dark:text-blanco hover:text-azul dark:hover:text-verde cursor-pointer transition-all duration-300 ease-in-out hover:scale-110">
               Services
             </li>
             <li className="text-cafe dark:text-blanco hover:text-azul dark:hover:text-verde cursor-pointer transition-all duration-300 ease-in-out hover:scale-110">
               Contact
             </li>
           </ul>
+
+          {/* Auth Buttons - Desktop */}
+          {!user && (
+            <div className="flex items-center gap-3 border-r border-madera/40 pr-4">
+              <Link
+                href="/login"
+                className="text-cafe dark:text-blanco hover:text-azul dark:hover:text-verde cursor-pointer transition-all duration-300 font-medium"
+              >
+                Login
+              </Link>
+              <button className="bg-azul dark:bg-verde text-blanco px-4 py-2 rounded-full hover:bg-azul/90 dark:hover:bg-verde/90 transition-all duration-300 font-medium">
+                Sign Up
+              </button>
+            </div>
+          )}
+
+          {/* User Menu - Desktop (when logged in) */}
+          {user && (
+            <div className="flex items-center gap-3 border-r border-madera/40 pr-4">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-azul dark:bg-verde rounded-full flex items-center justify-center">
+                  <span className="text-blanco text-sm font-medium">
+                    {user.name.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+                <span className="text-cafe dark:text-blanco font-medium">
+                  {user.name}
+                </span>
+              </div>
+              <button
+                onClick={logout}
+                className="text-cafe/70 dark:text-blanco/70 hover:text-azul dark:hover:text-verde cursor-pointer transition-all duration-300 text-sm"
+              >
+                Logout
+              </button>
+            </div>
+          )}
 
           <button
             onClick={toggleCart}
@@ -105,7 +150,7 @@ export default function NavBar() {
               />
             </svg>
             <span className="absolute -top-1 -right-1 bg-azul dark:bg-verde text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-              3
+              {isCartItems.length}
             </span>
           </button>
         </div>
@@ -172,6 +217,12 @@ export default function NavBar() {
                     onClick={() => setIsMenuOpen(false)}
                     className="text-cafe dark:text-blanco hover:text-azul dark:hover:text-verde cursor-pointer transition-all duration-300 hover:translate-x-2"
                   >
+                    <Link href="/products">Products</Link>
+                  </li>
+                  <li
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-cafe dark:text-blanco hover:text-azul dark:hover:text-verde cursor-pointer transition-all duration-300 hover:translate-x-2"
+                  >
                     Services
                   </li>
                   <li
@@ -181,6 +232,49 @@ export default function NavBar() {
                     Contact
                   </li>
                 </ul>
+
+                {/* Auth Section - Mobile */}
+                <div className="mt-8 pt-6 border-t border-madera/20 dark:border-verde/20">
+                  {!user ? (
+                    <div className="space-y-4">
+                      <Link
+                        href="/login"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block w-full text-left text-cafe dark:text-blanco hover:text-azul dark:hover:text-verde cursor-pointer transition-all duration-300 hover:translate-x-2 font-medium text-lg"
+                      >
+                        Login
+                      </Link>
+                      <button
+                        onClick={() => setIsMenuOpen(false)}
+                        className="w-full bg-azul dark:bg-verde text-blanco px-4 py-3 rounded-full hover:bg-azul/90 dark:hover:bg-verde/90 transition-all duration-300 font-medium text-center"
+                      >
+                        Sign Up
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-azul dark:bg-verde rounded-full flex items-center justify-center">
+                          <span className="text-blanco font-medium">
+                            {user.name.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                        <span className="text-cafe dark:text-blanco font-medium text-lg">
+                          Welcome, {user.name}!
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          logout();
+                          setIsMenuOpen(false);
+                        }}
+                        className="text-cafe/70 dark:text-blanco/70 hover:text-azul dark:hover:text-verde cursor-pointer transition-all duration-300 hover:translate-x-2"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </motion.div>
           </>
