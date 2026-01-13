@@ -9,10 +9,13 @@ import AOS from "aos";
 import { image } from "framer-motion/client";
 import { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
+import { useRouter } from "next/navigation";
 
 export default function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const { addToCart } = useCart();
+  const router = useRouter();
+  const [addingProductId, setAddingProductId] = useState<number | null>(null);
 
   const filteredProducts = products.filter(
     (product) =>
@@ -52,7 +55,8 @@ export default function ProductsPage() {
                   key={product.id}
                   data-aos="fade-up"
                   data-aos-delay={index * 100}
-                  className="group bg-white/80 dark:bg-cafe/20 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-madera/20 dark:border-verde/20"
+                  className="group bg-white/80 dark:bg-cafe/20 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-madera/20 dark:border-verde/20 cursor-pointer"
+                  onClick={() => router.push(`/product/${product.id}`)}
                 >
                   <div className="relative aspect-square bg-gradient-to-br from-madera/20 to-madera/5 dark:from-verde/20 dark:to-verde/5 flex items-center justify-center overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -104,12 +108,26 @@ export default function ProductsPage() {
                         </span>
                       </div>
                       <button
-                        onClick={() => addToCart([product])}
-                        className="group/btn relative bg-gradient-to-r from-azul to-azul/90 dark:from-verde dark:to-verde/90 text-white px-6 py-3 rounded-full font-semibold overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setAddingProductId(product.id);
+                          addToCart([product]);
+                          setTimeout(() => {
+                            setAddingProductId(null);
+                          }, 1000);
+                        }}
+                        disabled={addingProductId === product.id}
+                        className={`group/btn relative bg-gradient-to-r from-azul to-azul/90 dark:from-verde dark:to-verde/90 text-white px-6 py-3 rounded-full font-semibold overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed ${
+                          addingProductId === product.id ? "animate-pulse" : ""
+                        }`}
                       >
                         <span className="relative z-10 flex items-center gap-2">
                           <svg
-                            className="w-4 h-4 transition-transform group-hover/btn:rotate-12"
+                            className={`w-4 h-4 transition-transform ${
+                              addingProductId === product.id
+                                ? "animate-bounce"
+                                : "group-hover/btn:rotate-12"
+                            }`}
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -121,7 +139,9 @@ export default function ProductsPage() {
                               d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 11-4 0v-6m4 0V9a2 2 0 10-4 0v4.01"
                             />
                           </svg>
-                          Add to Cart
+                          {addingProductId === product.id
+                            ? "✓ Added!"
+                            : "Add to Cart"}
                         </span>
                         <div className="absolute inset-0 bg-gradient-to-r from-madera to-madera/90 dark:from-verde/80 dark:to-verde opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
                       </button>

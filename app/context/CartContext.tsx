@@ -2,6 +2,12 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 import { CartContextType } from "../interfaces/cartModal";
+import {
+  addToCart,
+  removeFromCart,
+  clearCart,
+  updateCartItem,
+} from "../lib/cartApi";
 import { Product } from "../interfaces/products";
 const CartContext = createContext<CartContextType | undefined>(undefined);
 

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function CallToAction() {
   return (
-    <section className="w-full min-h-[600px] relative flex items-center justify-center overflow-hidden">
+    <section className="w-full min-h-screen relative flex items-center justify-center overflow-hidden">
       {/* Background image overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-cafe/95 via-cafe/90 to-cafe/95 dark:from-azul/95 dark:via-azul/90 dark:to-azul/95"></div>
 

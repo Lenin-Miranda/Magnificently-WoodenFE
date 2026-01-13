@@ -12,11 +12,45 @@ export default function LoginPage() {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const { login, register } = useLogin();
   const router = useRouter();
-  const API_URL = process.env.API_URL || "http://localhost:8000";
+
+  // Validar email
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Validar contraseña
+  const validatePassword = (password: string) => {
+    return password.length >= 8;
+  };
+
+  // Manejar cambio de email
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    if (value && !validateEmail(value)) {
+      setEmailError("Please enter a valid email address");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  // Manejar cambio de contraseña
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPassword(value);
+    if (value && !validatePassword(value)) {
+      setPasswordError("Password must be at least 8 characters long");
+    } else {
+      setPasswordError("");
+    }
+  };
 
   // Detectar modo dark
   useEffect(() => {
@@ -52,20 +86,64 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
     setError("");
+    setEmailError("");
+    setPasswordError("");
+
+    // Validaciones antes de enviar
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setPasswordError("Password must be at least 8 characters long");
+      return;
+    }
+
+    if (mode === "register" && !name.trim()) {
+      setError("Please enter your full name");
+      return;
+    }
+
+    setIsLoading(true);
 
     try {
       if (mode === "login") {
         await login(email, password);
+        router.push("/"); // Redirect to home after successful login
       } else {
         await register(name, email, password);
+        router.push("/"); // Redirect to home after successful register
       }
-      router.push("/"); // Redirect to home after successful login/register
-    } catch (error) {
-      setError(
-        mode === "login" ? "Invalid credentials" : "Registration failed"
-      );
+    } catch (error: any) {
+      // Manejo de errores más específico
+      if (error.response?.status === 401) {
+        setError("Invalid email or password. Please try again.");
+      } else if (error.response?.status === 400) {
+        const errorMsg =
+          error.response?.data?.detail || error.response?.data?.message;
+        if (typeof errorMsg === "string") {
+          setError(errorMsg);
+        } else if (error.response?.data?.email) {
+          setError("This email is already registered");
+        } else if (error.response?.data?.username) {
+          setError("This username is already taken");
+        } else {
+          setError("Invalid input. Please check your information.");
+        }
+      } else if (error.response?.status === 500) {
+        setError("Server error. Please try again later.");
+      } else if (error.code === "ERR_NETWORK") {
+        setError("Network error. Please check your connection.");
+      } else {
+        setError(
+          mode === "login"
+            ? "Login failed. Please check your credentials."
+            : "Registration failed. Please try again."
+        );
+      }
+      console.error("Error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -160,12 +238,25 @@ export default function LoginPage() {
                       type="email"
                       id="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={handleEmailChange}
                       required
                       autoComplete="email"
-                      className="w-full px-4 py-3 rounded-xl border border-madera/30 dark:border-verde/30 bg-blanco/50 dark:bg-cafe/50 text-cafe dark:text-blanco placeholder-cafe/60 dark:placeholder-blanco/60 focus:border-azul dark:focus:border-verde focus:ring-2 focus:ring-azul/20 dark:focus:ring-verde/20 transition-all duration-300 font-medium"
+                      className={`w-full px-4 py-3 rounded-xl border ${
+                        emailError
+                          ? "border-red-500 dark:border-red-400"
+                          : "border-madera/30 dark:border-verde/30"
+                      } bg-blanco/50 dark:bg-cafe/50 text-cafe dark:text-blanco placeholder-cafe/60 dark:placeholder-blanco/60 focus:border-azul dark:focus:border-verde focus:ring-2 focus:ring-azul/20 dark:focus:ring-verde/20 transition-all duration-300 font-medium`}
                       placeholder="Enter your email"
                     />
+                    {emailError && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-red-600 dark:text-red-400 text-sm font-medium"
+                      >
+                        {emailError}
+                      </motion.p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -179,19 +270,45 @@ export default function LoginPage() {
                       type="password"
                       id="password"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={handlePasswordChange}
                       required
                       autoComplete={
                         mode === "login" ? "current-password" : "new-password"
                       }
-                      className="w-full px-4 py-3 rounded-xl border border-madera/30 dark:border-verde/30 bg-blanco/50 dark:bg-cafe/50 text-cafe dark:text-blanco placeholder-cafe/60 dark:placeholder-blanco/60 focus:border-azul dark:focus:border-verde focus:ring-2 focus:ring-azul/20 dark:focus:ring-verde/20 transition-all duration-300 font-medium"
+                      className={`w-full px-4 py-3 rounded-xl border ${
+                        passwordError
+                          ? "border-red-500 dark:border-red-400"
+                          : "border-madera/30 dark:border-verde/30"
+                      } bg-blanco/50 dark:bg-cafe/50 text-cafe dark:text-blanco placeholder-cafe/60 dark:placeholder-blanco/60 focus:border-azul dark:focus:border-verde focus:ring-2 focus:ring-azul/20 dark:focus:ring-verde/20 transition-all duration-300 font-medium`}
                       placeholder="Enter your password"
+                      minLength={8}
                     />
+                    {passwordError && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-red-600 dark:text-red-400 text-sm font-medium"
+                      >
+                        {passwordError}
+                      </motion.p>
+                    )}
+                    {mode === "register" &&
+                      !passwordError &&
+                      password.length > 0 && (
+                        <p className="text-cafe/60 dark:text-blanco/60 text-xs">
+                          Password strength:{" "}
+                          {password.length >= 12
+                            ? "Strong"
+                            : password.length >= 10
+                            ? "Good"
+                            : "Fair"}
+                        </p>
+                      )}
                   </div>
 
                   <motion.button
                     type="submit"
-                    disabled={isLoading}
+                    disabled={isLoading || !!emailError || !!passwordError}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     style={{

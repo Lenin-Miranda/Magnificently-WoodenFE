@@ -8,6 +8,7 @@ import Link from "next/link";
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { toggleCart, isCartItems } = useCart();
   const { user, logout } = useLogin();
 
@@ -111,23 +112,83 @@ export default function NavBar() {
 
           {/* User Menu - Desktop (when logged in) */}
           {user && (
-            <div className="flex items-center gap-3 border-r border-madera/40 pr-4">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-azul dark:bg-verde rounded-full flex items-center justify-center">
-                  <span className="text-blanco text-sm font-medium">
-                    {user.name.charAt(0).toUpperCase()}
-                  </span>
-                </div>
-                <span className="text-cafe dark:text-blanco font-medium">
-                  {user.name}
-                </span>
-              </div>
+            <div className="relative">
               <button
-                onClick={logout}
-                className="text-cafe/70 dark:text-blanco/70 hover:text-azul dark:hover:text-verde cursor-pointer transition-all duration-300 text-sm"
+                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                className="w-10 h-10 bg-azul dark:bg-verde rounded-full flex items-center justify-center hover:opacity-90 transition-all duration-300 border-2 border-transparent hover:border-madera dark:hover:border-madera"
               >
-                Logout
+                <span className="text-blanco text-sm font-bold">
+                  {(user.first_name || user.username).charAt(0).toUpperCase()}
+                </span>
               </button>
+
+              {/* Dropdown Menu */}
+              <AnimatePresence>
+                {isUserMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute right-0 mt-2 w-64 bg-blanco dark:bg-cafe rounded-2xl shadow-2xl border border-madera/20 dark:border-verde/20 py-4 px-4 z-50"
+                  >
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3 pb-4 border-b border-madera/20 dark:border-verde/20">
+                        <div className="w-12 h-12 bg-azul dark:bg-verde rounded-full flex items-center justify-center">
+                          <span className="text-blanco text-lg font-bold">
+                            {(user.first_name || user.username)
+                              .charAt(0)
+                              .toUpperCase()}
+                          </span>
+                        </div>
+                        <div>
+                          <p className="text-cafe dark:text-blanco font-semibold">
+                            {user.first_name || user.username}
+                          </p>
+                          <p className="text-cafe/60 dark:text-blanco/60 text-sm">
+                            {user.email}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Link
+                          href="/profile"
+                          className="block px-4 py-2 text-cafe dark:text-blanco hover:bg-madera/10 dark:hover:bg-verde/10 rounded-lg transition-all duration-300"
+                          onClick={() => setIsUserMenuOpen(false)}
+                        >
+                          My Profile
+                        </Link>
+                        <Link
+                          href="/orders"
+                          className="block px-4 py-2 text-cafe dark:text-blanco hover:bg-madera/10 dark:hover:bg-verde/10 rounded-lg transition-all duration-300"
+                          onClick={() => setIsUserMenuOpen(false)}
+                        >
+                          My Orders
+                        </Link>
+                        <Link
+                          href="/settings"
+                          className="block px-4 py-2 text-cafe dark:text-blanco hover:bg-madera/10 dark:hover:bg-verde/10 rounded-lg transition-all duration-300"
+                          onClick={() => setIsUserMenuOpen(false)}
+                        >
+                          Settings
+                        </Link>
+                      </div>
+
+                      <div className="pt-2 border-t border-madera/20 dark:border-verde/20">
+                        <button
+                          onClick={() => {
+                            logout();
+                            setIsUserMenuOpen(false);
+                          }}
+                          className="w-full px-4 py-2 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-300 font-medium"
+                        >
+                          Logout
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           )}
 
@@ -256,11 +317,13 @@ export default function NavBar() {
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-azul dark:bg-verde rounded-full flex items-center justify-center">
                           <span className="text-blanco font-medium">
-                            {user.name.charAt(0).toUpperCase()}
+                            {(user.first_name || user.username)
+                              .charAt(0)
+                              .toUpperCase()}
                           </span>
                         </div>
                         <span className="text-cafe dark:text-blanco font-medium text-lg">
-                          Welcome, {user.name}!
+                          Welcome, {user.first_name || user.username}!
                         </span>
                       </div>
                       <button
