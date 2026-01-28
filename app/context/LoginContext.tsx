@@ -71,8 +71,19 @@ export function LoginProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const refreshUser = async () => {
+    try {
+      const userData = await getUserRequest();
+      setUser(userData);
+    } catch (error) {
+      console.error("Error refreshing user:", error);
+    }
+  };
+
   return (
-    <LoginContext.Provider value={{ user, login, logout, register, isLoading }}>
+    <LoginContext.Provider
+      value={{ user, login, logout, register, isLoading, refreshUser }}
+    >
       {children}
     </LoginContext.Provider>
   );

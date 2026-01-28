@@ -11,7 +11,7 @@ export async function loginRequest(email: string, password: string) {
 export async function registerRequest(
   name: string,
   email: string,
-  password: string
+  password: string,
 ) {
   const response = await api.post("/users/register/", {
     username: email,
@@ -29,5 +29,15 @@ export async function getUserRequest() {
 
 export async function logoutRequest() {
   const response = await api.post("/users/logout/");
+  return response.data;
+}
+
+export async function updateUserRequest(userData: {
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  username?: string;
+}) {
+  const response = await api.patch("/users/me/", userData);
   return response.data;
 }

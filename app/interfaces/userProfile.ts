@@ -1,6 +1,5 @@
-export default interface UserProfile {
+export interface UserProfile {
   id: number;
-  userId: number;
   bio?: string;
   profilePicture?: string;
   phoneNumber?: string;
@@ -9,9 +8,9 @@ export default interface UserProfile {
   updatedAt: string;
 }
 
-export default interface UserProfileContextType {
+export interface UserProfileContextType {
   userProfile: UserProfile | null;
   isLoading: boolean;
-  fetchUserProfile: (userId: number) => Promise<void>;
+  fetchUserProfile: () => Promise<void>;
   updateUserProfile: (profileData: Partial<UserProfile>) => Promise<void>;
 }

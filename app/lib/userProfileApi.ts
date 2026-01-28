@@ -1,21 +1,18 @@
 import api from "./axios";
-import UserProfile from "../interfaces/userProfile";
-import { User } from "../interfaces/user";
-import { profile } from "console";
+import { UserProfile } from "../interfaces/userProfile";
 
-export const getUserProfile = async (userId: number): Promise<UserProfile> => {
-  const res = await api.get(`/profile/${userId}/`, {
+export const getUserProfile = async (): Promise<UserProfile> => {
+  const res = await api.get(`/users/profile/`, {
     withCredentials: true,
   });
-  return res.data as UserProfile;
+  return res.data;
 };
 
 export async function updateUserProfile(
-  userId: number,
   profileData: Partial<UserProfile>,
 ): Promise<UserProfile> {
-  const res = await api.put(`/profile/${userId}/`, profileData, {
+  const res = await api.patch(`/users/profile/`, profileData, {
     withCredentials: true,
   });
-  return res.data as UserProfile;
+  return res.data;
 }

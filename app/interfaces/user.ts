@@ -16,4 +16,5 @@ export interface UserContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
+  refreshUser: () => Promise<void>;
 }

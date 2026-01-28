@@ -5,12 +5,18 @@ import { useRouter } from "next/navigation";
 import NavBar from "../components/NavBar/NavBar";
 import Footer from "../components/Footer/Footer";
 import CartModal from "../components/cartModal/CartModal";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { ProfileProvider, useProfile } from "../context/ProfileContext";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-export default function ProfilePage() {
+function ProfileContent() {
   const { user, logout, isLoading } = useLogin();
+  const {
+    userProfile,
+    fetchUserProfile,
+    isLoading: profileLoading,
+  } = useProfile();
   const router = useRouter();
 
   useEffect(() => {
@@ -27,7 +33,13 @@ export default function ProfilePage() {
     }
   }, [user, isLoading, router]);
 
-  if (isLoading) {
+  useEffect(() => {
+    if (user) {
+      fetchUserProfile();
+    }
+  }, [user]);
+
+  if (isLoading || profileLoading) {
     return (
       <div className="flex w-full min-h-screen items-center justify-center bg-gradient-to-br from-blanco via-madera/10 to-blanco dark:from-cafe dark:via-cafe/90 dark:to-cafe">
         <div className="text-center">
@@ -73,10 +85,18 @@ export default function ProfilePage() {
               {/* Profile Header with Avatar */}
               <div className="bg-gradient-to-r from-azul to-azul/90 dark:from-verde dark:to-verde/90 p-8 text-white">
                 <div className="flex items-center gap-6">
-                  <div className="w-24 h-24 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-4xl font-bold border-4 border-white/30">
-                    {user.first_name?.[0]?.toUpperCase() ||
+                  <div className="w-24 h-24 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-4xl font-bold border-4 border-white/30 overflow-hidden">
+                    {userProfile?.profilePicture ? (
+                      <img
+                        src={userProfile.profilePicture}
+                        alt="Profile"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      user.first_name?.[0]?.toUpperCase() ||
                       user.username?.[0]?.toUpperCase() ||
-                      "U"}
+                      "U"
+                    )}
                   </div>
                   <div>
                     <h2 className="text-3xl font-bold">
@@ -199,9 +219,68 @@ export default function ProfilePage() {
                                 year: "numeric",
                                 month: "long",
                                 day: "numeric",
-                              }
+                              },
                             )
                           : "N/A"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Additional Profile Information */}
+                <h3
+                  className="text-2xl font-bold text-cafe dark:text-blanco mb-6 mt-8 pt-8 border-t border-madera/20 dark:border-verde/20"
+                  data-aos="fade-up"
+                  data-aos-delay="650"
+                >
+                  Additional Information
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Bio */}
+                  <div
+                    className="space-y-2 md:col-span-2"
+                    data-aos="fade-up"
+                    data-aos-delay="700"
+                  >
+                    <label className="text-sm font-medium text-cafe/70 dark:text-madera/70">
+                      Bio
+                    </label>
+                    <div className="p-4 bg-madera/5 dark:bg-verde/5 rounded-xl border border-madera/20 dark:border-verde/20">
+                      <p className="text-cafe dark:text-blanco font-medium">
+                        {userProfile?.bio || "No bio added"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Phone Number */}
+                  <div
+                    className="space-y-2"
+                    data-aos="fade-up"
+                    data-aos-delay="750"
+                  >
+                    <label className="text-sm font-medium text-cafe/70 dark:text-madera/70">
+                      Phone Number
+                    </label>
+                    <div className="p-4 bg-madera/5 dark:bg-verde/5 rounded-xl border border-madera/20 dark:border-verde/20">
+                      <p className="text-cafe dark:text-blanco font-medium">
+                        {userProfile?.phoneNumber || "Not set"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Location */}
+                  <div
+                    className="space-y-2"
+                    data-aos="fade-up"
+                    data-aos-delay="800"
+                  >
+                    <label className="text-sm font-medium text-cafe/70 dark:text-madera/70">
+                      Location
+                    </label>
+                    <div className="p-4 bg-madera/5 dark:bg-verde/5 rounded-xl border border-madera/20 dark:border-verde/20">
+                      <p className="text-cafe dark:text-blanco font-medium">
+                        {userProfile?.location || "Not set"}
                       </p>
                     </div>
                   </div>
@@ -211,7 +290,7 @@ export default function ProfilePage() {
                 <div
                   className="mt-8 pt-8 border-t border-madera/20 dark:border-verde/20 flex flex-col sm:flex-row gap-4"
                   data-aos="fade-up"
-                  data-aos-delay="700"
+                  data-aos-delay="850"
                 >
                   <button
                     onClick={() => router.push("/settings")}
@@ -340,5 +419,13 @@ export default function ProfilePage() {
         <CartModal />
       </main>
     </div>
+  );
+}
+
+export default function ProfilePage() {
+  return (
+    <ProfileProvider>
+      <ProfileContent />
+    </ProfileProvider>
   );
 }
