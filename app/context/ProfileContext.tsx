@@ -38,6 +38,7 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
       setUserProfile(updateProfile);
     } catch (error) {
       console.error("Error updating user profile:", error);
+      throw error; // Re-throw to allow components to handle errors
     } finally {
       setIsLoading(false);
     }

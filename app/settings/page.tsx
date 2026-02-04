@@ -7,10 +7,12 @@ import CartModal from "../components/cartModal/CartModal";
 import { useLogin } from "../context/LoginContext";
 import { ProfileProvider, useProfile } from "../context/ProfileContext";
 import { updateUserRequest } from "../lib/authApi";
+import { useErrorModal } from "../components/ErrorModal/ErrorModal";
 
 function SettingsContent() {
   const { user, isLoading, refreshUser } = useLogin();
   const router = useRouter();
+  const { showError } = useErrorModal();
   const {
     userProfile,
     fetchUserProfile,
@@ -76,8 +78,16 @@ function SettingsContent() {
       // Refresh user data in context
       if (refreshUser) await refreshUser();
       setMessage("Profile updated successfully.");
-    } catch (e) {
+    } catch (e: unknown) {
       console.error(e);
+      // Extract error code from axios error response
+      const errorCode =
+        (
+          e as { response?: { status?: number } }
+        )?.response?.status?.toString() ||
+        (e as { message?: string })?.message ||
+        "default";
+      showError(errorCode);
       setMessage("Error updating profile.");
     } finally {
       setSaving(false);
