@@ -3,6 +3,7 @@ import AdminNavBar from "@/app/components/NavBar/AdminNavBar";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import AOS from "aos";
+import { useProducts } from "@/app/context/ProductContext";
 
 // Datos de ejemplo - reemplaza con tu API
 const mockProducts = [
@@ -54,7 +55,8 @@ const mockProducts = [
 ];
 
 export default function AdminProductsPage() {
-  const [products, setProducts] = useState(mockProducts);
+  const { products, setProducts, showEditModal, setShowEditModal } =
+    useProducts();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [showAddModal, setShowAddModal] = useState(false);
@@ -177,7 +179,7 @@ export default function AdminProductsPage() {
                   En Stock
                 </p>
                 <p className="text-3xl font-bold text-green-600 dark:text-green-400">
-                  {products.filter((p) => p.stock > 5).length}
+                  {products.filter((p) => p.inStock > 5).length}
                 </p>
               </div>
               <div className="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
@@ -205,7 +207,10 @@ export default function AdminProductsPage() {
                   Stock Bajo
                 </p>
                 <p className="text-3xl font-bold text-orange-600 dark:text-orange-400">
-                  {products.filter((p) => p.stock > 0 && p.stock <= 5).length}
+                  {
+                    products.filter((p) => p.inStock > 0 && p.inStock <= 5)
+                      .length
+                  }
                 </p>
               </div>
               <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/20 rounded-lg flex items-center justify-center">
@@ -233,7 +238,7 @@ export default function AdminProductsPage() {
                   Sin Stock
                 </p>
                 <p className="text-3xl font-bold text-red-600 dark:text-red-400">
-                  {products.filter((p) => p.stock === 0).length}
+                  {products.filter((p) => p.inStock === 0).length}
                 </p>
               </div>
               <div className="w-12 h-12 bg-red-100 dark:bg-red-900/20 rounded-lg flex items-center justify-center">

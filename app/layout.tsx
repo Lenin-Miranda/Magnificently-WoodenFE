@@ -4,6 +4,7 @@ import "./globals.css";
 import "aos/dist/aos.css";
 import { CartProvider } from "./context/CartContext";
 import { LoginProvider } from "./context/LoginContext";
+import { ProductProvider } from "./context/ProductContext";
 import { ErrorModalProvider } from "./components/ErrorModal/ErrorModal";
 
 // Fuente para títulos (elegante)
@@ -42,7 +43,9 @@ export default function RootLayout({
       >
         <LoginProvider>
           <CartProvider>
-            <ErrorModalProvider>{children}</ErrorModalProvider>
+            <ProductProvider>
+              <ErrorModalProvider>{children}</ErrorModalProvider>
+            </ProductProvider>
           </CartProvider>
         </LoginProvider>
       </body>

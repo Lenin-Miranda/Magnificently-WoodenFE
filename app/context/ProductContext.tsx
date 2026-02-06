@@ -14,6 +14,7 @@ const ProductContext = createContext<ProductContextType | undefined>(undefined);
 export function ProductProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const fetchProducts = async () => {
     setIsLoading(true);
     try {
@@ -96,6 +97,8 @@ export function ProductProvider({ children }: { children: ReactNode }) {
         updateExistingProduct,
         deleteExistingProduct,
         isLoading,
+        showEditModal,
+        setShowEditModal,
       }}
     >
       {children}

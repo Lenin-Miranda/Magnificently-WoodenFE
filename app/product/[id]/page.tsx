@@ -74,7 +74,6 @@ export default function ProductPage() {
 
         <div className="w-full py-20 px-4 md:px-8 lg:px-16">
           <div className="max-w-7xl mx-auto">
-            {/* Breadcrumb */}
             <div
               className="mb-8 flex items-center gap-2 text-cafe/60 dark:text-madera/60"
               data-aos="fade-down"

@@ -11,6 +11,8 @@ export const products = [
     category: "Toys",
     image: woodenPlane,
     inStock: 20,
+    status: "active",
+    isFeatured: true,
   },
   {
     id: 2,
@@ -22,6 +24,8 @@ export const products = [
     category: "Furniture",
     image: woodenPlane,
     inStock: 15,
+    status: "active",
+    isFeatured: true,
   },
   {
     id: 3,
@@ -33,6 +37,8 @@ export const products = [
     category: "Kitchen",
     image: woodenPlane,
     inStock: 25,
+    status: "active",
+    isFeatured: false,
   },
   {
     id: 4,
@@ -44,6 +50,8 @@ export const products = [
     category: "Decor",
     image: woodenPlane,
     inStock: 10,
+    status: "active",
+    isFeatured: false,
   },
   {
     id: 5,
@@ -55,6 +63,8 @@ export const products = [
     category: "Accessories",
     image: woodenPlane,
     inStock: 10,
+    status: "active",
+    isFeatured: true,
   },
   {
     id: 6,
@@ -66,5 +76,7 @@ export const products = [
     category: "Games",
     image: woodenPlane,
     inStock: 10,
+    status: "active",
+    isFeatured: false,
   },
 ];
