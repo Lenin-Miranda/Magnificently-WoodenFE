@@ -104,9 +104,12 @@ export default function NavBar() {
               >
                 Login
               </Link>
-              <button className="bg-azul dark:bg-verde text-blanco px-4 py-2 rounded-full hover:bg-azul/90 dark:hover:bg-verde/90 transition-all duration-300 font-medium">
+              <Link
+                href="/login?mode=register"
+                className="bg-azul dark:bg-verde text-blanco px-4 py-2 rounded-full hover:bg-azul/90 dark:hover:bg-verde/90 transition-all duration-300 font-medium"
+              >
                 Sign Up
-              </button>
+              </Link>
             </div>
           )}
 
@@ -151,6 +154,15 @@ export default function NavBar() {
                       </div>
 
                       <div className="space-y-2">
+                        {user?.role === "admin" && (
+                          <Link
+                            href="/admin"
+                            className="block px-4 py-2 text-azul dark:text-verde font-semibold hover:bg-azul/10 dark:hover:bg-verde/10 rounded-lg transition-all duration-300"
+                            onClick={() => setIsUserMenuOpen(false)}
+                          >
+                            Admin Dashboard
+                          </Link>
+                        )}
                         <Link
                           href="/profile"
                           className="block px-4 py-2 text-cafe dark:text-blanco hover:bg-madera/10 dark:hover:bg-verde/10 rounded-lg transition-all duration-300"
@@ -305,12 +317,13 @@ export default function NavBar() {
                       >
                         Login
                       </Link>
-                      <button
+                      <Link
+                        href="/login?mode=register"
                         onClick={() => setIsMenuOpen(false)}
-                        className="w-full bg-azul dark:bg-verde text-blanco px-4 py-3 rounded-full hover:bg-azul/90 dark:hover:bg-verde/90 transition-all duration-300 font-medium text-center"
+                        className="block w-full bg-azul dark:bg-verde text-blanco px-4 py-3 rounded-full hover:bg-azul/90 dark:hover:bg-verde/90 transition-all duration-300 font-medium text-center"
                       >
                         Sign Up
-                      </button>
+                      </Link>
                     </div>
                   ) : (
                     <div className="space-y-4">

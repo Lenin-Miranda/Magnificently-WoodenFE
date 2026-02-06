@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter, Montserrat } from "next/font/google";
 import "./globals.css";
+import "aos/dist/aos.css";
 import { CartProvider } from "./context/CartContext";
 import { LoginProvider } from "./context/LoginContext";
 import { ErrorModalProvider } from "./components/ErrorModal/ErrorModal";

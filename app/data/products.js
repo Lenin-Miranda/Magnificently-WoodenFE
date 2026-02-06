@@ -45,4 +45,26 @@ export const products = [
     image: woodenPlane,
     inStock: 10,
   },
+  {
+    id: 5,
+    name: "Wooden Jewelry Box",
+    description:
+      "Elegant wooden jewelry box with velvet lining and multiple compartments. Ideal for organizing your precious items.",
+    price: 89.99,
+    rating: 4.6,
+    category: "Accessories",
+    image: woodenPlane,
+    inStock: 10,
+  },
+  {
+    id: 6,
+    name: "Handcrafted Wooden Puzzle",
+    description:
+      "Challenging wooden puzzle made from sustainable wood. Great for brain exercise and family fun.",
+    price: 39.99,
+    rating: 4.5,
+    category: "Games",
+    image: woodenPlane,
+    inStock: 10,
+  },
 ];

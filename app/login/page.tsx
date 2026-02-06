@@ -2,11 +2,15 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLogin } from "../context/LoginContext";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import NavBar from "../components/NavBar/NavBar";
 
 export default function LoginPage() {
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const searchParams = useSearchParams();
+  const urlMode = searchParams.get("mode");
+  const [mode, setMode] = useState<"login" | "register">(
+    urlMode === "register" ? "register" : "login",
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -18,6 +22,15 @@ export default function LoginPage() {
 
   const { login, register } = useLogin();
   const router = useRouter();
+
+  // Detectar cambios en el parámetro de la URL
+  useEffect(() => {
+    if (urlMode === "register") {
+      setMode("register");
+    } else if (urlMode === "login") {
+      setMode("login");
+    }
+  }, [urlMode]);
 
   // Validar email
   const validateEmail = (email: string) => {
@@ -58,7 +71,7 @@ export default function LoginPage() {
       // Verificar tanto la clase 'dark' como el media query
       const hasDarkClass = document.documentElement.classList.contains("dark");
       const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
+        "(prefers-color-scheme: dark)",
       ).matches;
       const isDark = hasDarkClass || prefersDark;
       setIsDarkMode(isDark);
@@ -132,6 +145,8 @@ export default function LoginPage() {
         } else {
           setError("Invalid input. Please check your information.");
         }
+      } else if (error.response?.status === 429) {
+        setError("Too Many Attempts please try again later");
       } else if (error.response?.status === 500) {
         setError("Server error. Please try again later.");
       } else if (error.code === "ERR_NETWORK") {
@@ -140,7 +155,7 @@ export default function LoginPage() {
         setError(
           mode === "login"
             ? "Login failed. Please check your credentials."
-            : "Registration failed. Please try again."
+            : "Registration failed. Please try again.",
         );
       }
       console.error("Error:", error);
