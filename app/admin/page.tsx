@@ -30,7 +30,6 @@ export default function AdminPage() {
   function seeMoreOrders() {
     if (index + 3 < orders.length) {
       setIndex(index + 3);
-      console.log(index + 3);
     } else {
       setIndex(orders.length);
     }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import AOS from "aos";
 import { useProducts } from "@/app/context/ProductContext";
+import AddProductModal from "../components/AddProductModal";
 
 // Datos de ejemplo - reemplaza con tu API
 const mockProducts = [
@@ -55,11 +56,12 @@ const mockProducts = [
 ];
 
 export default function AdminProductsPage() {
-  const { products, setProducts, showEditModal, setShowEditModal } =
+  const { products, setProducts, showAddModal, setShowAddModal } =
     useProducts();
+  const [productToEdit, setProductToEdit] = useState(null);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
     AOS.init({
@@ -103,7 +105,7 @@ export default function AdminProductsPage() {
   return (
     <div className="min-h-screen bg-blanco dark:bg-cafe">
       <AdminNavBar />
-
+      <AddProductModal />
       <main className="max-w-7xl mx-auto px-4 py-12">
         {/* Header */}
         <div
@@ -386,11 +388,11 @@ export default function AdminProductsPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className="text-sm text-cafe dark:text-blanco">
-                          {product.stock} unidades
+                          {product.inStock} unidades
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {getStatusBadge(product.status, product.stock)}
+                        {getStatusBadge(product.status, product.inStock)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right">
                         <div className="flex items-center justify-end gap-2">

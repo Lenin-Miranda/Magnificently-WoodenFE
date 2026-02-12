@@ -22,8 +22,8 @@ export interface ProductContextType {
   createNewProduct: (productData: FormData) => Promise<void>;
   updateExistingProduct: (id: number, productData: FormData) => Promise<void>;
   deleteExistingProduct: (id: number) => Promise<void>;
-  showEditModal: boolean;
-  setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
+  showAddModal: boolean;
+  setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
 }
 

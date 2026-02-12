@@ -38,9 +38,9 @@ export function LoginProvider({ children }: { children: ReactNode }) {
     checkAuth();
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (emailOrUsername: string, password: string) => {
     try {
-      await loginRequest(email, password);
+      await loginRequest(emailOrUsername, password);
 
       // Obtener el usuario inmediatamente después del login
       const userInfo = await getUserRequest();
@@ -61,9 +61,13 @@ export function LoginProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (
+    username: string,
+    email: string,
+    password: string,
+  ) => {
     try {
-      const userData = await registerRequest(name, email, password);
+      const userData = await registerRequest(username, email, password);
       setUser(userData);
     } catch (error) {
       console.error("Error en registro:", error);

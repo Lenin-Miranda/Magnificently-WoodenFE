@@ -59,8 +59,6 @@ function SettingsContent() {
     }
   }, [userProfile]);
 
-  console.log("User Profile:", userProfile);
-
   const handleSave = async () => {
     if (!user) return;
     setSaving(true);

@@ -12,13 +12,15 @@ export default function LoginPage() {
     urlMode === "register" ? "register" : "login",
   );
   const [email, setEmail] = useState("");
+  const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { login, register } = useLogin();
   const router = useRouter();
@@ -32,10 +34,15 @@ export default function LoginPage() {
     }
   }, [urlMode]);
 
-  // Validar email
-  const validateEmail = (email: string) => {
+  // Validar email o username
+  const validateEmailOrUsername = (input: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    // Si parece un email, validar como email
+    if (input.includes("@")) {
+      return emailRegex.test(input);
+    }
+    // Si no, validar como username (al menos 3 caracteres, alfanumérico)
+    return input.length >= 3 && /^[a-zA-Z0-9_]+$/.test(input);
   };
 
   // Validar contraseña
@@ -43,15 +50,32 @@ export default function LoginPage() {
     return password.length >= 8;
   };
 
-  // Manejar cambio de email
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Manejar cambio de email/username
+  const handleEmailOrUsernameChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const value = e.target.value;
-    setEmail(value);
-    if (value && !validateEmail(value)) {
-      setEmailError("Please enter a valid email address");
+    if (mode === "login") {
+      setEmailOrUsername(value);
+      if (value && !validateEmailOrUsername(value)) {
+        setEmailError("Please enter a valid email or username");
+      } else {
+        setEmailError("");
+      }
     } else {
-      setEmailError("");
+      setEmail(value);
+      if (value && !validateEmail(value)) {
+        setEmailError("Please enter a valid email address");
+      } else {
+        setEmailError("");
+      }
     }
+  };
+
+  // Validar email para registro
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
   // Manejar cambio de contraseña
@@ -104,9 +128,16 @@ export default function LoginPage() {
     setPasswordError("");
 
     // Validaciones antes de enviar
-    if (!validateEmail(email)) {
-      setEmailError("Please enter a valid email address");
-      return;
+    if (mode === "login") {
+      if (!validateEmailOrUsername(emailOrUsername)) {
+        setEmailError("Please enter a valid email or username");
+        return;
+      }
+    } else {
+      if (!validateEmail(email)) {
+        setEmailError("Please enter a valid email address");
+        return;
+      }
     }
 
     if (!validatePassword(password)) {
@@ -114,8 +145,8 @@ export default function LoginPage() {
       return;
     }
 
-    if (mode === "register" && !name.trim()) {
-      setError("Please enter your full name");
+    if (mode === "register" && !username.trim()) {
+      setError("Please enter a username");
       return;
     }
 
@@ -123,25 +154,36 @@ export default function LoginPage() {
 
     try {
       if (mode === "login") {
-        await login(email, password);
+        // For login, use emailOrUsername
+        await login(emailOrUsername, password);
         router.push("/"); // Redirect to home after successful login
       } else {
-        await register(name, email, password);
+        await register(username, email, password);
         router.push("/"); // Redirect to home after successful register
       }
     } catch (error: any) {
       // Manejo de errores más específico
       if (error.response?.status === 401) {
-        setError("Invalid email or password. Please try again.");
+        if (mode === "login") {
+          setError(
+            "Invalid credentials. Please check your email/username and password.",
+          );
+        } else {
+          setError("Invalid email or password. Please try again.");
+        }
       } else if (error.response?.status === 400) {
         const errorMsg =
           error.response?.data?.detail || error.response?.data?.message;
         if (typeof errorMsg === "string") {
           setError(errorMsg);
         } else if (error.response?.data?.email) {
-          setError("This email is already registered");
+          setError(
+            "This email is already registered. Please try logging in instead.",
+          );
         } else if (error.response?.data?.username) {
-          setError("This username is already taken");
+          setError(
+            "This email is already registered. Please try logging in instead.",
+          );
         } else {
           setError("Invalid input. Please check your information.");
         }
@@ -223,20 +265,20 @@ export default function LoginPage() {
                         className="space-y-2"
                       >
                         <label
-                          htmlFor="name"
+                          htmlFor="username"
                           className="block text-sm font-semibold text-cafe dark:text-blanco"
                         >
-                          Full Name
+                          Username
                         </label>
                         <input
                           type="text"
-                          id="name"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
+                          id="username"
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
                           required={mode === "register"}
-                          autoComplete="name"
+                          autoComplete="username"
                           className="w-full px-4 py-3 rounded-xl border border-madera/30 dark:border-verde/30 bg-blanco/50 dark:bg-cafe/50 text-cafe dark:text-blanco placeholder-cafe/60 dark:placeholder-blanco/60 focus:border-azul dark:focus:border-verde focus:ring-2 focus:ring-azul/20 dark:focus:ring-verde/20 transition-all duration-300 font-medium"
-                          placeholder="Enter your full name"
+                          placeholder="Enter your username"
                         />
                       </motion.div>
                     )}
@@ -247,21 +289,25 @@ export default function LoginPage() {
                       htmlFor="email"
                       className="block text-sm font-semibold text-cafe dark:text-blanco"
                     >
-                      Email Address
+                      {mode === "login" ? "Email or Username" : "Email Address"}
                     </label>
                     <input
-                      type="email"
+                      type={mode === "login" ? "text" : "email"}
                       id="email"
-                      value={email}
-                      onChange={handleEmailChange}
+                      value={mode === "login" ? emailOrUsername : email}
+                      onChange={handleEmailOrUsernameChange}
                       required
-                      autoComplete="email"
+                      autoComplete={mode === "login" ? "username" : "email"}
                       className={`w-full px-4 py-3 rounded-xl border ${
                         emailError
                           ? "border-red-500 dark:border-red-400"
                           : "border-madera/30 dark:border-verde/30"
                       } bg-blanco/50 dark:bg-cafe/50 text-cafe dark:text-blanco placeholder-cafe/60 dark:placeholder-blanco/60 focus:border-azul dark:focus:border-verde focus:ring-2 focus:ring-azul/20 dark:focus:ring-verde/20 transition-all duration-300 font-medium`}
-                      placeholder="Enter your email"
+                      placeholder={
+                        mode === "login"
+                          ? "Enter your email or username"
+                          : "Enter your email"
+                      }
                     />
                     {emailError && (
                       <motion.p
@@ -281,23 +327,37 @@ export default function LoginPage() {
                     >
                       Password
                     </label>
-                    <input
-                      type="password"
-                      id="password"
-                      value={password}
-                      onChange={handlePasswordChange}
-                      required
-                      autoComplete={
-                        mode === "login" ? "current-password" : "new-password"
-                      }
-                      className={`w-full px-4 py-3 rounded-xl border ${
-                        passwordError
-                          ? "border-red-500 dark:border-red-400"
-                          : "border-madera/30 dark:border-verde/30"
-                      } bg-blanco/50 dark:bg-cafe/50 text-cafe dark:text-blanco placeholder-cafe/60 dark:placeholder-blanco/60 focus:border-azul dark:focus:border-verde focus:ring-2 focus:ring-azul/20 dark:focus:ring-verde/20 transition-all duration-300 font-medium`}
-                      placeholder="Enter your password"
-                      minLength={8}
-                    />
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        id="password"
+                        value={password}
+                        onChange={handlePasswordChange}
+                        required
+                        autoComplete={
+                          mode === "login" ? "current-password" : "new-password"
+                        }
+                        className={`w-full pl-4 pr-12 py-3 rounded-xl border ${
+                          passwordError
+                            ? "border-red-500 dark:border-red-400"
+                            : "border-madera/30 dark:border-verde/30"
+                        } bg-blanco/50 dark:bg-cafe/50 text-cafe dark:text-blanco placeholder-cafe/60 dark:placeholder-blanco/60 focus:border-azul dark:focus:border-verde focus:ring-2 focus:ring-azul/20 dark:focus:ring-verde/20 transition-all duration-300 font-medium`}
+                        placeholder="Enter your password"
+                        minLength={8}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        aria-label={
+                          showPassword
+                            ? "Ocultar contraseña"
+                            : "Mostrar contraseña"
+                        }
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-azul dark:text-verde hover:opacity-80 transition-opacity"
+                      >
+                        {showPassword ? "Ocultar" : "Mostrar"}
+                      </button>
+                    </div>
                     {passwordError && (
                       <motion.p
                         initial={{ opacity: 0, y: -5 }}
