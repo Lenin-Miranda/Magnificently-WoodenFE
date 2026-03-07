@@ -17,9 +17,9 @@ export function About() {
           </p>
           <p className="text-base md:text-lg leading-relaxed mt-4">
             We believe in the power of wood to transform spaces and create warm,
-            inviting atmospheres. Whether you're looking for a statement piece
-            or everyday furniture, Magnificently Wooden offers a range of styles
-            to suit your taste and lifestyle.
+            inviting atmospheres. Whether you&apos;re looking for a statement
+            piece or everyday furniture, Magnificently Wooden offers a range of
+            styles to suit your taste and lifestyle.
           </p>
         </div>
         <div className="mt-8" data-aos="fade-right">

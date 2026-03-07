@@ -16,9 +16,9 @@ export default function NavBar() {
     <>
       <nav className="w-full py-6 px-4 md:px-6 bg-blanco dark:bg-cafe shadow-sm border-b border-madera/20 flex justify-between items-center">
         <div className="text-2xl md:text-3xl font-display font-bold text-cafe dark:text-blanco tracking-tight">
-          <a href="/" className="">
+          <Link href="/" className="">
             Magnificently Wooden
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Menu Button & Cart */}

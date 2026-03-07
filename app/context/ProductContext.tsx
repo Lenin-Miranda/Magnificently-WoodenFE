@@ -19,7 +19,38 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       const productsData = await getProducts();
-      setProducts(productsData);
+      console.log("Raw products from API:", productsData);
+      console.log("Type of productsData:", typeof productsData);
+      console.log("Is Array?:", Array.isArray(productsData));
+
+      // Handle if response is wrapped in an object (e.g., { results: [...] })
+      const productArray = Array.isArray(productsData)
+        ? productsData
+        : productsData.results ||
+          productsData.data ||
+          productsData.products ||
+          [];
+
+      console.log("Product array:", productArray);
+
+      // Ensure numeric fields are properly parsed
+      const parsedProducts = productArray.map((product: Product) => ({
+        ...product,
+        price:
+          typeof product.price === "string"
+            ? parseFloat(product.price)
+            : product.price,
+        inStock:
+          typeof product.inStock === "string"
+            ? parseInt(product.inStock)
+            : product.inStock,
+        rating:
+          typeof product.rating === "string"
+            ? parseFloat(product.rating)
+            : product.rating,
+      }));
+      console.log("Parsed products:", parsedProducts);
+      setProducts(parsedProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
       throw new Error("Failed to fetch products");
@@ -45,7 +76,25 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       const newProduct = await createProduct(productData);
-      setProducts((prevProducts) => [...prevProducts, newProduct]);
+      console.log("New product created:", newProduct);
+      // Ensure numeric fields are properly parsed
+      const parsedProduct = {
+        ...newProduct,
+        price:
+          typeof newProduct.price === "string"
+            ? parseFloat(newProduct.price)
+            : newProduct.price,
+        inStock:
+          typeof newProduct.inStock === "string"
+            ? parseInt(newProduct.inStock)
+            : newProduct.inStock,
+        rating:
+          typeof newProduct.rating === "string"
+            ? parseFloat(newProduct.rating)
+            : newProduct.rating,
+      };
+      console.log("Parsed new product:", parsedProduct);
+      setProducts((prevProducts) => [...prevProducts, parsedProduct]);
     } catch (error) {
       console.error("Error creating product:", error);
       throw new Error("Failed to create product");
@@ -58,9 +107,25 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       const updatedProduct = await updateProduct(id, productData);
+      // Ensure numeric fields are properly parsed
+      const parsedProduct = {
+        ...updatedProduct,
+        price:
+          typeof updatedProduct.price === "string"
+            ? parseFloat(updatedProduct.price)
+            : updatedProduct.price,
+        inStock:
+          typeof updatedProduct.inStock === "string"
+            ? parseInt(updatedProduct.inStock)
+            : updatedProduct.inStock,
+        rating:
+          typeof updatedProduct.rating === "string"
+            ? parseFloat(updatedProduct.rating)
+            : updatedProduct.rating,
+      };
       setProducts((prevProducts) =>
         prevProducts.map((product) =>
-          product.id === id ? updatedProduct : product,
+          product.id === id ? parsedProduct : product,
         ),
       );
     } catch (error) {

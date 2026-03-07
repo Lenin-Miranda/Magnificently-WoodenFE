@@ -57,8 +57,8 @@ export default function Testimonials() {
             What Our Customers Say
           </h2>
           <p className="text-cafe/70 dark:text-cafe/80 text-base md:text-lg max-w-2xl mx-auto">
-            Don't just take our word for it. Here's what our satisfied customers
-            have to say about their experience.
+            Don&apos;t just take our word for it. Here&apos;s what our satisfied
+            customers have to say about their experience.
           </p>
         </div>
 
@@ -113,12 +113,12 @@ export default function Testimonials() {
                           >
                             <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
                           </svg>
-                        )
+                        ),
                       )}
                     </div>
 
                     <p className="text-cafe dark:text-blanco text-xs sm:text-sm md:text-base lg:text-lg italic mb-4 md:mb-6 leading-relaxed">
-                      "{testimonials[currentIndex].comment}"
+                      &ldquo;{testimonials[currentIndex].comment}&rdquo;
                     </p>
 
                     <div>

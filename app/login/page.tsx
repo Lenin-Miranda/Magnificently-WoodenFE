@@ -161,9 +161,12 @@ export default function LoginPage() {
         await register(username, email, password);
         router.push("/"); // Redirect to home after successful register
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Manejo de errores más específico
-      if (error.response?.status === 401) {
+      const err = error as {
+        response?: { status: number; data?: { message?: string } };
+      };
+      if (err.response?.status === 401) {
         if (mode === "login") {
           setError(
             "Invalid credentials. Please check your email/username and password.",
@@ -171,27 +174,22 @@ export default function LoginPage() {
         } else {
           setError("Invalid email or password. Please try again.");
         }
-      } else if (error.response?.status === 400) {
-        const errorMsg =
-          error.response?.data?.detail || error.response?.data?.message;
+      } else if (err.response?.status === 400) {
+        const errorMsg = err.response?.data?.message;
         if (typeof errorMsg === "string") {
           setError(errorMsg);
-        } else if (error.response?.data?.email) {
-          setError(
-            "This email is already registered. Please try logging in instead.",
-          );
-        } else if (error.response?.data?.username) {
+        } else if (err.response?.data) {
           setError(
             "This email is already registered. Please try logging in instead.",
           );
         } else {
           setError("Invalid input. Please check your information.");
         }
-      } else if (error.response?.status === 429) {
+      } else if (err.response?.status === 429) {
         setError("Too Many Attempts please try again later");
-      } else if (error.response?.status === 500) {
+      } else if (err.response?.status === 500) {
         setError("Server error. Please try again later.");
-      } else if (error.code === "ERR_NETWORK") {
+      } else if ((error as { code?: string }).code === "ERR_NETWORK") {
         setError("Network error. Please check your connection.");
       } else {
         setError(

@@ -16,8 +16,13 @@ export default function AddProductModal() {
     rating: 0,
     status: "active",
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const handleInputChange = (field: keyof Product, value: any) => {
+  const handleInputChange = (
+    field: keyof Product,
+    value: string | number | boolean,
+  ) => {
     setProductModal({ ...productModal, [field]: value });
   };
 
@@ -42,11 +47,8 @@ export default function AddProductModal() {
       formData.append("rating", productModal.rating?.toString() || "0");
 
       // Add image if selected
-      if (
-        productModal.image instanceof File ||
-        productModal.image instanceof Blob
-      ) {
-        formData.append("image", productModal.image);
+      if (imageFile) {
+        formData.append("image", imageFile);
       }
 
       // Call the create function from context
@@ -63,6 +65,8 @@ export default function AddProductModal() {
         rating: 0,
         status: "active",
       });
+      setImageFile(null);
+      setImagePreview(null);
       setShowAddModal(false);
 
       // Success notification
@@ -263,29 +267,50 @@ export default function AddProductModal() {
                       onChange={(e) => {
                         const file = e.target.files?.[0];
                         if (file) {
-                          handleInputChange("image", file);
+                          setImageFile(file);
+                          // Create preview URL
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setImagePreview(reader.result as string);
+                          };
+                          reader.readAsDataURL(file);
                         }
                       }}
                     />
                     <div className="flex items-center justify-center w-full h-24 border-2 border-dashed border-madera/30 dark:border-verde/30 rounded-lg bg-madera/5 dark:bg-verde/5 hover:bg-madera/10 dark:hover:bg-verde/10 transition-colors duration-200">
-                      <div className="text-center">
-                        <svg
-                          className="w-6 h-6 mx-auto text-cafe/50 dark:text-madera/50 mb-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                      {imagePreview ? (
+                        <div className="relative w-full h-full">
+                          <img
+                            src={imagePreview}
+                            alt="Preview"
+                            className="w-full h-full object-cover rounded-lg"
                           />
-                        </svg>
-                        <p className="text-xs text-cafe/70 dark:text-madera/70">
-                          Click to upload image
-                        </p>
-                      </div>
+                          <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-200 rounded-lg flex items-center justify-center">
+                            <p className="text-white text-xs">
+                              Click to change
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="text-center">
+                          <svg
+                            className="w-6 h-6 mx-auto text-cafe/50 dark:text-madera/50 mb-1"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                            />
+                          </svg>
+                          <p className="text-xs text-cafe/70 dark:text-madera/70">
+                            Click to upload image
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -309,15 +334,7 @@ export default function AddProductModal() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="flex-1 px-6 py-3 rounded-xl font-semibold hover:scale-105 active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-                style={{
-                  backgroundColor:
-                    typeof window !== "undefined" &&
-                    window.matchMedia("(prefers-color-scheme: dark)").matches
-                      ? "#16A34A"
-                      : "#2563EB",
-                  color: "white",
-                }}
+                className="flex-1 px-6 py-3 rounded-xl font-semibold hover:scale-105 active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 bg-blue-600 dark:bg-green-600 text-white"
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center gap-2">

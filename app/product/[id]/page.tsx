@@ -31,7 +31,7 @@ export default function ProductPage() {
 
   if (!product) {
     return (
-      <div className="flex w-full min-h-screen items-center justify-center bg-gradient-to-br from-blanco via-madera/10 to-blanco dark:from-cafe dark:via-cafe/90 dark:to-cafe">
+      <div className="flex w-full min-h-screen items-center justify-center bg-gradient-to-br from-blanco via-madera/10 to-blanco dark:from-madera dark:via-madera/90 dark:to-madera">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-cafe dark:text-blanco mb-4">
             Product Not Found
@@ -68,14 +68,14 @@ export default function ProductPage() {
   };
 
   return (
-    <div className="flex w-full min-h-screen items-center justify-center bg-gradient-to-br from-blanco via-madera/10 to-blanco dark:from-cafe dark:via-cafe/90 dark:to-cafe font-sans">
+    <div className="flex w-full min-h-screen items-center justify-center bg-gradient-to-br from-blanco via-madera/10 to-blanco dark:from-madera dark:via-madera/90 dark:to-madera font-sans">
       <main className="flex min-h-screen w-full flex-col items-center justify-start bg-transparent">
         <NavBar />
 
         <div className="w-full py-20 px-4 md:px-8 lg:px-16">
           <div className="max-w-7xl mx-auto">
             <div
-              className="mb-8 flex items-center gap-2 text-cafe/60 dark:text-madera/60"
+              className="mb-8 flex items-center gap-2 text-cafe/60 dark:text-cafe/60"
               data-aos="fade-down"
             >
               <button
@@ -99,7 +99,7 @@ export default function ProductPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Product Image */}
               <div
-                className="relative aspect-square bg-gradient-to-br from-madera/20 to-madera/5 dark:from-verde/20 dark:to-verde/5 rounded-2xl overflow-hidden shadow-2xl"
+                className="relative aspect-square bg-gradient-to-br from-madera/20 to-madera/5 dark:from-cafe/20 dark:to-cafe/85 rounded-2xl overflow-hidden shadow-2xl"
                 data-aos="fade-right"
                 data-aos-delay="200"
               >
@@ -127,7 +127,7 @@ export default function ProductPage() {
               {/* Product Info */}
               <div className="flex flex-col justify-center">
                 <h1
-                  className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-cafe dark:text-blanco mb-4 tracking-tight"
+                  className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-cafe dark:text-cafe mb-4 tracking-tight"
                   data-aos="fade-left"
                   data-aos-delay="300"
                 >
@@ -155,7 +155,7 @@ export default function ProductPage() {
                       </svg>
                     ))}
                   </div>
-                  <span className="text-lg font-medium text-cafe/70 dark:text-madera/70">
+                  <span className="text-lg font-medium text-cafe/70 dark:text-cafe/70">
                     {product.rating} / 5.0
                   </span>
                 </div>
@@ -165,14 +165,14 @@ export default function ProductPage() {
                   <span className="text-5xl font-bold text-azul dark:text-verde">
                     ${product.price}
                   </span>
-                  <span className="ml-2 text-lg text-cafe/50 dark:text-madera/50">
+                  <span className="ml-2 text-lg text-cafe/50 dark:text-cafe/90">
                     USD
                   </span>
                 </div>
 
                 {/* Description */}
                 <p
-                  className="text-lg text-cafe/80 dark:text-madera/80 mb-8 leading-relaxed"
+                  className="text-lg text-cafe/80 dark:text-cafe/80 mb-8 leading-relaxed"
                   data-aos="fade-left"
                   data-aos-delay="600"
                 >
@@ -182,7 +182,7 @@ export default function ProductPage() {
                 {/* Stock Info */}
                 <div className="mb-8" data-aos="fade-left" data-aos-delay="700">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-cafe/70 dark:text-madera/70">
+                    <span className="text-cafe/70 dark:text-cafe/70">
                       Availability:
                     </span>
                     <span
@@ -201,7 +201,7 @@ export default function ProductPage() {
 
                 {/* Quantity Selector */}
                 <div className="mb-8" data-aos="fade-up" data-aos-delay="800">
-                  <label className="block text-cafe/70 dark:text-madera/70 mb-3 font-medium">
+                  <label className="block text-cafe/70 dark:text-cafe/70 mb-3 font-medium">
                     Quantity:
                   </label>
                   <div className="flex items-center gap-4">
@@ -224,7 +224,7 @@ export default function ProductPage() {
                         +
                       </button>
                     </div>
-                    <span className="text-cafe/60 dark:text-madera/60">
+                    <span className="text-cafe/60 dark:text-cafe/60">
                       Max: {product.inStock}
                     </span>
                   </div>
@@ -284,7 +284,7 @@ export default function ProductPage() {
                           d="M5 13l4 4L19 7"
                         />
                       </svg>
-                      <span className="text-sm text-cafe/70 dark:text-madera/70">
+                      <span className="text-sm text-cafe/70 dark:text-cafe/70">
                         Handcrafted
                       </span>
                     </div>
@@ -302,7 +302,7 @@ export default function ProductPage() {
                           d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
-                      <span className="text-sm text-cafe/70 dark:text-madera/70">
+                      <span className="text-sm text-cafe/70 dark:text-cafe/70">
                         Fast Shipping
                       </span>
                     </div>
@@ -320,7 +320,7 @@ export default function ProductPage() {
                           d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
                         />
                       </svg>
-                      <span className="text-sm text-cafe/70 dark:text-madera/70">
+                      <span className="text-sm text-cafe/70 dark:text-cafe/70">
                         Quality Guaranteed
                       </span>
                     </div>

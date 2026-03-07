@@ -6,58 +6,15 @@ import AOS from "aos";
 import { useProducts } from "@/app/context/ProductContext";
 import AddProductModal from "../components/AddProductModal";
 
-// Datos de ejemplo - reemplaza con tu API
-const mockProducts = [
-  {
-    id: 1,
-    name: "Wooden Airplane Classic",
-    category: "Classic Models",
-    price: 45.99,
-    stock: 15,
-    image: "/placeholder.jpg",
-    status: "active",
-  },
-  {
-    id: 2,
-    name: "Vintage Fighter Plane",
-    category: "Vintage Collection",
-    price: 89.99,
-    stock: 8,
-    image: "/placeholder.jpg",
-    status: "active",
-  },
-  {
-    id: 3,
-    name: "Modern Jet Model",
-    category: "Modern Series",
-    price: 120.0,
-    stock: 3,
-    image: "/placeholder.jpg",
-    status: "low_stock",
-  },
-  {
-    id: 4,
-    name: "Biplane Retro",
-    category: "Retro Collection",
-    price: 65.5,
-    stock: 0,
-    image: "/placeholder.jpg",
-    status: "out_of_stock",
-  },
-  {
-    id: 5,
-    name: "Commercial Airliner",
-    category: "Commercial",
-    price: 150.0,
-    stock: 12,
-    image: "/placeholder.jpg",
-    status: "active",
-  },
-];
-
 export default function AdminProductsPage() {
-  const { products, setProducts, showAddModal, setShowAddModal } =
-    useProducts();
+  const {
+    products,
+    setProducts,
+    showAddModal,
+    setShowAddModal,
+    fetchProducts,
+    isLoading,
+  } = useProducts();
   const [productToEdit, setProductToEdit] = useState(null);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -69,6 +26,9 @@ export default function AdminProductsPage() {
       once: true,
       easing: "ease-out-cubic",
     });
+
+    // Cargar productos al montar el componente
+    fetchProducts();
   }, []);
 
   const filteredProducts = products.filter((product) => {
