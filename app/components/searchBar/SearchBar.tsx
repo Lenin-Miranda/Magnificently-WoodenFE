@@ -12,7 +12,7 @@ export default function SearchBar({
 
   return (
     <div className="flex-col gap-4">
-      <p className="text-2xl mb-6 font-display font-bold dark:text-madera text-azul">
+      <p className="text-2xl mb-6 font-display font-bold dark:text-cafe text-azul">
         Type to search our products
       </p>
       <label htmlFor="search"></label>

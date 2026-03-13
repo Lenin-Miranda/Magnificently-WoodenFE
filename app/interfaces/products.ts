@@ -2,16 +2,22 @@ import { StaticImageData } from "next/image";
 
 export interface Product {
   id: number;
+  name: string;
+  slug: string;
   description: string;
   price: number;
   rating: number;
   category: string;
   inStock: number;
-  image: string | StaticImageData | undefined;
-  name: string;
-  quantity?: number;
+  image: string | undefined;
+  main_image?: string;
   status: string;
+  isActive: boolean;
   isFeatured: boolean;
+  quantity?: number;
+  created_at?: string;
+  updated_at?: string;
+  images?: Array<{ id: number; image: string; alt_text: string }>;
 }
 
 export interface ProductContextType {
@@ -24,6 +30,8 @@ export interface ProductContextType {
   deleteExistingProduct: (id: number) => Promise<void>;
   showAddModal: boolean;
   setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
+  showDeleteModal: boolean;
+  setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
 }
 

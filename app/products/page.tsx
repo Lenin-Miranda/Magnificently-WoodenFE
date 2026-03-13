@@ -3,17 +3,23 @@
 import NavBar from "../components/NavBar/NavBar";
 import Footer from "../components/Footer/Footer";
 import CartModal from "../components/cartModal/CartModal";
-import { products } from "../data/products";
 import SearchBar from "../components/searchBar/SearchBar";
 import AOS from "aos";
 import { image } from "framer-motion/client";
 import { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
+import { useProducts } from "../context/ProductContext";
 import { useRouter } from "next/navigation";
 
 export default function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const { addToCart } = useCart();
+  const { products, fetchProducts } = useProducts();
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   const router = useRouter();
   const [addingProductId, setAddingProductId] = useState<number | null>(null);
 
@@ -21,11 +27,11 @@ export default function ProductsPage() {
     (product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchTerm.toLowerCase())
+      product.category.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
-    <div className="flex w-full min-h-screen items-center justify-center bg-gradient-to-br from-blanco via-madera/10 to-blanco dark:from-cafe dark:via-cafe/90 dark:to-cafe font-sans">
+    <div className="flex w-full min-h-screen items-center justify-center bg-gradient-to-br from-blanco via-madera/10 to-blanco dark:from-madera dark:via-madera/90 dark:to-madera font-sans">
       <main className="flex min-h-screen w-full flex-col items-center justify-start bg-transparent sm:items-start">
         <NavBar />
 
@@ -35,7 +41,7 @@ export default function ProductsPage() {
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-cafe dark:text-blanco mb-4 tracking-tight">
                 Our Products
               </h1>
-              <p className="text-lg md:text-xl text-azul dark:text-madera max-w-2xl mx-auto mb-8 leading-relaxed">
+              <p className="text-lg md:text-xl text-azul dark:text-cafe max-w-2xl mx-auto mb-8 leading-relaxed">
                 Discover our carefully crafted collection of handmade wooden
                 treasures
               </p>
@@ -55,13 +61,13 @@ export default function ProductsPage() {
                   key={product.id}
                   data-aos="fade-up"
                   data-aos-delay={index * 100}
-                  className="group bg-white/80 dark:bg-cafe/20 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-madera/20 dark:border-verde/20 cursor-pointer"
+                  className="group bg-white/80 dark:bg-cafe/80 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-madera/20 dark:border-verde/20 cursor-pointer"
                   onClick={() => router.push(`/product/${product.id}`)}
                 >
                   <div className="relative aspect-square bg-gradient-to-br from-madera/20 to-madera/5 dark:from-verde/20 dark:to-verde/5 flex items-center justify-center overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <img
-                      src={product.image.src}
+                      src={product.image as string}
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
@@ -80,7 +86,7 @@ export default function ProductsPage() {
                   </div>
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-3">
-                      <h3 className="text-xl font-display font-bold text-cafe dark:text-blanco group-hover:text-azul dark:group-hover:text-verde transition-colors duration-300">
+                      <h3 className="text-xl font-display font-bold text-cafe dark:text-blanco group-hover:text-azul dark:group-hover:text-madera transition-colors duration-300">
                         {product.name}
                       </h3>
                       <div className="flex items-center gap-1 text-yellow-500">
@@ -100,7 +106,7 @@ export default function ProductsPage() {
                     </p>
                     <div className="flex items-center justify-between">
                       <div className="flex flex-col">
-                        <span className="text-2xl font-bold text-azul dark:text-verde">
+                        <span className="text-2xl font-bold text-azul dark:text-blanco">
                           ${product.price}
                         </span>
                         <span className="text-xs text-cafe/50 dark:text-madera/50">

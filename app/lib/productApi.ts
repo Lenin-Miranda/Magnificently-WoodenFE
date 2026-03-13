@@ -17,6 +17,9 @@ export const getProductBySlug = async (slug: string) => {
 export const createProduct = async (productData: FormData) => {
   const res = await api.post("/products/admin/create/", productData, {
     withCredentials: true,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 
   return res.data;
@@ -25,17 +28,18 @@ export const createProduct = async (productData: FormData) => {
 export const updateProduct = async (id: number, productData: FormData) => {
   const res = await api.post(`/products/admin/update/${id}/`, productData, {
     withCredentials: true,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 
   return res.data;
 };
 
 export const deleteProduct = async (id: number) => {
-  const res = await api.post(
-    `/products/admin/delete/${id}/`,
-    {},
-    { withCredentials: true },
-  );
+  const res = await api.delete(`/products/admin/delete/${id}/`, {
+    withCredentials: true,
+  });
 
   return res.data;
 };

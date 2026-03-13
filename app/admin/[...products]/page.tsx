@@ -5,17 +5,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import AOS from "aos";
 import { useProducts } from "@/app/context/ProductContext";
 import AddProductModal from "../components/AddProductModal";
+import DeleteProductModal from "../components/DeleteProductModal";
+import { deleteProduct } from "@/app/lib/productApi";
 
 export default function AdminProductsPage() {
   const {
     products,
-    setProducts,
-    showAddModal,
     setShowAddModal,
     fetchProducts,
     isLoading,
+    setShowDeleteModal,
   } = useProducts();
   const [productToEdit, setProductToEdit] = useState(null);
+  const [productToDelete, setProductToDelete] = useState<number | null>(null);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -66,6 +68,7 @@ export default function AdminProductsPage() {
     <div className="min-h-screen bg-blanco dark:bg-cafe">
       <AdminNavBar />
       <AddProductModal />
+      {productToDelete !== null && <DeleteProductModal id={productToDelete} />}
       <main className="max-w-7xl mx-auto px-4 py-12">
         {/* Header */}
         <div
@@ -371,7 +374,13 @@ export default function AdminProductsPage() {
                               />
                             </svg>
                           </button>
-                          <button className="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-300">
+                          <button
+                            onClick={() => {
+                              setProductToDelete(product.id);
+                              setShowDeleteModal(true);
+                            }}
+                            className="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-300"
+                          >
                             <svg
                               className="w-5 h-5"
                               fill="none"

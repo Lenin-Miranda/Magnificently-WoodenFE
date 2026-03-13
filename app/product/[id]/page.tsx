@@ -104,7 +104,7 @@ export default function ProductPage() {
                 data-aos-delay="200"
               >
                 <Image
-                  src={product.image}
+                  src={product.image as string}
                   alt={product.name}
                   fill
                   className="object-cover"

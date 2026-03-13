@@ -12,9 +12,10 @@ export default function AddProductModal() {
     price: 0,
     inStock: 0,
     isFeatured: false,
+    isActive: true,
     category: "",
     rating: 0,
-    status: "active",
+    status: "available",
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -43,12 +44,13 @@ export default function AddProductModal() {
         "isFeatured",
         productModal.isFeatured?.toString() || "false",
       );
-      formData.append("status", productModal.status || "active");
+      formData.append("isActive", productModal.isActive?.toString() || "true");
+      formData.append("status", productModal.status || "available");
       formData.append("rating", productModal.rating?.toString() || "0");
 
       // Add image if selected
       if (imageFile) {
-        formData.append("image", imageFile);
+        formData.append("main_image", imageFile);
       }
 
       // Call the create function from context
@@ -61,9 +63,10 @@ export default function AddProductModal() {
         price: 0,
         inStock: 0,
         isFeatured: false,
+        isActive: true,
         category: "",
         rating: 0,
-        status: "active",
+        status: "available",
       });
       setImageFile(null);
       setImagePreview(null);
