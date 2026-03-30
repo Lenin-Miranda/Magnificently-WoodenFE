@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import TypewriterText from "../TypewriterText/TypewriterText";
-import woodenPlane from "../../../public/trasnparent-wooden-plane-removebg-preview.png";
+import woodenPlane from "../../../public/pngtree-classic-wooden-toy-airplane-with-propeller-png-image_16397781.png";
 
 export default function Hero() {
   return (

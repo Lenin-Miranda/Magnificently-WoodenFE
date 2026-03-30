@@ -1,4 +1,4 @@
-import woodenPlane from "../../public/pngtree-wooden-toy-airplane-png-image_13246257-removebg-preview.png";
+import woodenPlane from "../../public/pngtree-classic-wooden-toy-airplane-with-propeller-png-image_16397781.png";
 
 export const products = [
   {
