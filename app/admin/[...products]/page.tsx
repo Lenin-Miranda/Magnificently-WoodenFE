@@ -22,6 +22,16 @@ export default function AdminProductsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
 
+  // Helper function to extract category name from string or object
+  const getCategoryName = (category: any) => {
+    if (!category) return "Unknown";
+    if (typeof category === "string") return category;
+    if (typeof category === "object") {
+      return category.name || category.slug || "Unknown";
+    }
+    return "Unknown";
+  };
+
   useEffect(() => {
     AOS.init({
       duration: 800,
@@ -37,14 +47,18 @@ export default function AdminProductsPage() {
     const matchesSearch = product.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
+    const categoryValue = getCategoryName(product.category);
     const matchesCategory =
-      selectedCategory === "all" || product.category === selectedCategory;
+      selectedCategory === "all" || categoryValue === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
-  const categories = ["all", ...new Set(products.map((p) => p.category))];
+  const categories = [
+    "all",
+    ...new Set(products.map((p) => getCategoryName(p.category))),
+  ];
 
-  const getStatusBadge = (status: string, stock: number) => {
+  const getStatusBadge = (stock: number) => {
     if (stock === 0)
       return (
         <span className="px-3 py-1 rounded-full text-xs font-semibold bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400">
@@ -341,7 +355,7 @@ export default function AdminProductsPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className="text-sm text-cafe dark:text-blanco">
-                          {product.category}
+                          {getCategoryName(product.category)}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -355,7 +369,7 @@ export default function AdminProductsPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {getStatusBadge(product.status, product.inStock)}
+                        {getStatusBadge(product.inStock)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right">
                         <div className="flex items-center justify-end gap-2">

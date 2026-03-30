@@ -21,9 +21,6 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       const productsData = await getProducts();
-      console.log("Raw products from API:", productsData);
-      console.log("Type of productsData:", typeof productsData);
-      console.log("Is Array?:", Array.isArray(productsData));
 
       // Handle if response is wrapped in an object (e.g., { results: [...] })
       const productArray = Array.isArray(productsData)
@@ -33,9 +30,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
           productsData.products ||
           [];
 
-      console.log("Product array:", productArray);
-
-      // Ensure numeric fields are properly parsed
+      // Ensure numeric fields are properly parsed and handle category objects
       const parsedProducts = productArray.map((product: Product) => ({
         ...product,
         price:
@@ -50,8 +45,14 @@ export function ProductProvider({ children }: { children: ReactNode }) {
           typeof product.rating === "string"
             ? parseFloat(product.rating)
             : product.rating,
+        // Handle category as object or string
+        category:
+          typeof product.category === "object" && product.category !== null
+            ? (product.category as any)?.name ||
+              (product.category as any)?.slug ||
+              "Unknown"
+            : product.category,
       }));
-      console.log("Parsed products:", parsedProducts);
       setProducts(parsedProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -78,7 +79,6 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       const newProduct = await createProduct(productData);
-      console.log("New product created:", newProduct);
       // Ensure numeric fields are properly parsed
       const parsedProduct = {
         ...newProduct,
@@ -94,8 +94,15 @@ export function ProductProvider({ children }: { children: ReactNode }) {
           typeof newProduct.rating === "string"
             ? parseFloat(newProduct.rating)
             : newProduct.rating,
+        // Handle category as object or string
+        category:
+          typeof newProduct.category === "object" &&
+          newProduct.category !== null
+            ? (newProduct.category as any)?.name ||
+              (newProduct.category as any)?.slug ||
+              "Unknown"
+            : newProduct.category,
       };
-      console.log("Parsed new product:", parsedProduct);
       setProducts((prevProducts) => [...prevProducts, parsedProduct]);
     } catch (error) {
       console.error("Error creating product:", error);
@@ -124,6 +131,14 @@ export function ProductProvider({ children }: { children: ReactNode }) {
           typeof updatedProduct.rating === "string"
             ? parseFloat(updatedProduct.rating)
             : updatedProduct.rating,
+        // Handle category as object or string
+        category:
+          typeof updatedProduct.category === "object" &&
+          updatedProduct.category !== null
+            ? (updatedProduct.category as any)?.name ||
+              (updatedProduct.category as any)?.slug ||
+              "Unknown"
+            : updatedProduct.category,
       };
       setProducts((prevProducts) =>
         prevProducts.map((product) =>
