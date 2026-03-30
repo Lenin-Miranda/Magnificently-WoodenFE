@@ -31,14 +31,14 @@ export default function FeatureProducts({
           {products?.map((product, index) => (
             <li
               key={index}
-              className="bg-blanco dark:bg-madera w-full min-w-[300px] max-w-[325px] px-4 py-2 shadow-md rounded-lg overflow-hidden hover:scale-105 transition-transform duration-400 flex flex-col"
+              className="bg-blanco dark:bg-madera w-full min-w-[300px] max-w-[325px] p-4 shadow-md rounded-lg overflow-hidden hover:scale-105 transition-transform duration-400 flex flex-col"
             >
               <Image
-                src={product.image || '/placeholder.jpg'}
+                src={product.image || "/placeholder.jpg"}
                 alt={product.name}
                 width={300}
                 height={200}
-                className="w-full h-48 object-cover"
+                className="w-full h-48 object-cover rounded-md mb-4"
               />
               <div className="p-4 flex-1 flex flex-col">
                 <h2 className="text-lg font-display font-semibold text-cafe dark:text-cafe mb-2">
