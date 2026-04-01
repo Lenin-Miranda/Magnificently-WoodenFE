@@ -154,11 +154,12 @@ export default function LoginPage() {
 
     try {
       if (mode === "login") {
-        // For login, use emailOrUsername
-        await login(emailOrUsername, password);
+        // For login, convert emailOrUsername to lowercase
+        await login(emailOrUsername.toLowerCase(), password);
         router.push("/"); // Redirect to home after successful login
       } else {
-        await register(username, email, password);
+        // For register, convert both username and email to lowercase
+        await register(username.toLowerCase(), email.toLowerCase(), password);
         router.push("/"); // Redirect to home after successful register
       }
     } catch (error: unknown) {
@@ -353,7 +354,7 @@ export default function LoginPage() {
                         }
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-azul dark:text-verde hover:opacity-80 transition-opacity"
                       >
-                        {showPassword ? "Ocultar" : "Mostrar"}
+                        {showPassword ? "Hide" : "Show"}
                       </button>
                     </div>
                     {passwordError && (
@@ -416,7 +417,7 @@ export default function LoginPage() {
                         setMode(mode === "login" ? "register" : "login");
                         setError("");
                       }}
-                      className="text-azul  dark:text-verde font-semibold hover:underline transition-all duration-300"
+                      className="text-azul dark:text-verde font-semibold cursor-pointer hover:text-azul/60 dark:hover:text-verde/60 transition-all duration-300"
                     >
                       {mode === "login" ? "Sign up" : "Sign in"}
                     </button>
