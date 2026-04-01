@@ -76,8 +76,8 @@ export default function NavBar() {
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-4">
-          <ul className="flex space-x-12 font-sans font-medium text-base">
+        <div className="hidden md:flex items-center gap-6">
+          <ul className="flex items-center justify-center gap-8 font-sans font-medium text-base">
             <li className="text-cafe dark:text-blanco hover:text-azul dark:hover:text-verde cursor-pointer transition-all duration-300 ease-in-out hover:scale-110">
               Home
             </li>
@@ -97,7 +97,7 @@ export default function NavBar() {
 
           {/* Auth Buttons - Desktop */}
           {!user && (
-            <div className="flex items-center gap-3 border-r border-madera/40 pr-4">
+            <div className="flex items-center justify-center gap-4 border-r border-madera/40 pr-4">
               <Link
                 href="/login"
                 className="text-cafe dark:text-blanco hover:text-azul dark:hover:text-verde cursor-pointer transition-all duration-300 font-medium"
