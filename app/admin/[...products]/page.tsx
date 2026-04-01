@@ -43,6 +43,7 @@ export default function AdminProductsPage() {
     fetchProducts();
   }, []);
 
+  console.log("Products in Admin Page:", products);
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()
@@ -329,19 +330,15 @@ export default function AdminProductsPage() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-3">
                           <div className="w-12 h-12 bg-madera/20 dark:bg-verde/20 rounded-lg flex items-center justify-center">
-                            <svg
-                              className="w-6 h-6 text-cafe dark:text-blanco"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                              />
-                            </svg>
+                            <img
+                              src={
+                                typeof product.image === "string"
+                                  ? product.image
+                                  : product.image?.src || "/placeholder.jpg"
+                              }
+                              alt={product.name}
+                              className="w-full h-full object-cover rounded-md"
+                            />
                           </div>
                           <div>
                             <p className="text-sm font-semibold text-cafe dark:text-blanco">

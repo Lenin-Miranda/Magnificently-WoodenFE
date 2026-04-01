@@ -31,7 +31,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
           [];
 
       // Ensure numeric fields are properly parsed and handle category objects
-      const parsedProducts = productArray.map((product: Product) => ({
+      const parsedProducts = productArray.map((product: any) => ({
         ...product,
         price:
           typeof product.price === "string"
@@ -52,6 +52,8 @@ export function ProductProvider({ children }: { children: ReactNode }) {
               (product.category as any)?.slug ||
               "Unknown"
             : product.category,
+        // Map main_image from backend to image expected by frontend
+        image: product.main_image || product.image,
       }));
       setProducts(parsedProducts);
     } catch (error) {
@@ -102,6 +104,8 @@ export function ProductProvider({ children }: { children: ReactNode }) {
               (newProduct.category as any)?.slug ||
               "Unknown"
             : newProduct.category,
+        // Map main_image from backend to image expected by frontend
+        image: newProduct.main_image || newProduct.image,
       };
       setProducts((prevProducts) => [...prevProducts, parsedProduct]);
     } catch (error) {
@@ -139,6 +143,8 @@ export function ProductProvider({ children }: { children: ReactNode }) {
               (updatedProduct.category as any)?.slug ||
               "Unknown"
             : updatedProduct.category,
+        // Map main_image from backend to image expected by frontend
+        image: updatedProduct.main_image || updatedProduct.image,
       };
       setProducts((prevProducts) =>
         prevProducts.map((product) =>
