@@ -1,12 +1,11 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { products } from "../../data/products";
+import { useProducts } from "../../context/ProductContext";
 import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import CartModal from "../../components/cartModal/CartModal";
 import { useCart } from "../../context/CartContext";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -15,6 +14,7 @@ export default function ProductPage() {
   const params = useParams();
   const router = useRouter();
   const { addToCart } = useCart();
+  const { products, fetchProducts, isLoading } = useProducts();
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
 
@@ -27,9 +27,29 @@ export default function ProductPage() {
       once: false,
       mirror: true,
     });
-  }, []);
+
+    // Load products if not loaded yet
+    if (products.length === 0 && !isLoading) {
+      fetchProducts();
+    }
+  }, [products.length, isLoading, fetchProducts]);
 
   if (!product) {
+    // Show loading state while products are being fetched
+    if (isLoading || products.length === 0) {
+      return (
+        <div className="flex w-full min-h-screen items-center justify-center bg-gradient-to-br from-blanco via-madera/10 to-blanco dark:from-madera dark:via-madera/90 dark:to-madera">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-azul dark:border-verde mx-auto mb-4"></div>
+            <h1 className="text-2xl font-semibold text-cafe dark:text-blanco">
+              Loading product...
+            </h1>
+          </div>
+        </div>
+      );
+    }
+
+    // Product not found after loading
     return (
       <div className="flex w-full min-h-screen items-center justify-center bg-gradient-to-br from-blanco via-madera/10 to-blanco dark:from-madera dark:via-madera/90 dark:to-madera">
         <div className="text-center">
@@ -103,12 +123,14 @@ export default function ProductPage() {
                 data-aos="fade-right"
                 data-aos-delay="200"
               >
-                <Image
-                  src={product.image as string}
+                <img
+                  src={
+                    typeof product.image === "string"
+                      ? product.image
+                      : product.image?.src || "/placeholder.jpg"
+                  }
                   alt={product.name}
-                  fill
-                  className="object-cover"
-                  priority
+                  className="object-cover w-full h-full"
                 />
                 {product.inStock < 15 && (
                   <div className="absolute top-4 left-4">

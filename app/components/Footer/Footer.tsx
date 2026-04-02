@@ -272,33 +272,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Newsletter Section */}
-        <div className="border-t border-blanco/20 dark:border-madera/20 pt-8 mb-8">
-          <div className="max-w-md mx-auto text-center lg:text-left lg:max-w-none lg:flex lg:items-center lg:justify-between">
-            <div className="mb-4 lg:mb-0">
-              <h3 className="text-base md:text-lg font-display font-bold mb-2">
-                Subscribe to Our Newsletter
-              </h3>
-              <p className="text-xs md:text-sm text-blanco/80 dark:text-madera/80">
-                Get updates on new products and exclusive offers
-              </p>
-            </div>
-            <form className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto lg:mx-0">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-2 rounded-lg bg-blanco/70 dark:bg-madera/10 border border-blanco/20 dark:border-madera/20 text-azul dark:text-blanco placeholder:text-azul/50 dark:placeholder:text-madera/50 focus:outline-none focus:ring-2 focus:ring-azul dark:focus:ring-madera text-sm md:text-base"
-              />
-              <button
-                type="submit"
-                className="px-6 py-2 border border-madera dark:border-madera bg-cafe dark:bg-madera text-blanco dark:text-cafe rounded-lg hover:bg-madera/90 dark:hover:bg-madera/90 transition-all duration-300 font-semibold text-sm md:text-base whitespace-nowrap"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
-        </div>
-
         {/* Bottom Bar */}
         <div className="border-t border-blanco/20 dark:border-madera/20 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs md:text-sm text-blanco/80 dark:text-madera/80">
           <p>© {currentYear} Magnificently Wooden. All rights reserved.</p>
