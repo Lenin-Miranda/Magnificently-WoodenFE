@@ -210,7 +210,7 @@ export default function ProductPage() {
                     <span
                       className={`font-semibold ${
                         product.inStock > 0
-                          ? "text-green-600 dark:text-green-400"
+                          ? "text-green-600 dark:text-green-800"
                           : "text-red-600 dark:text-red-400"
                       }`}
                     >
