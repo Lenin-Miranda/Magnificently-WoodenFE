@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import woodenPlane from "../../../public/pngtree-classic-wooden-toy-airplane-with-propeller-png-image_16397781.png";
+import woodenPlane from "../../../public/pngtree-wooden-toy-airplane-png-image_13246257.png";
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
