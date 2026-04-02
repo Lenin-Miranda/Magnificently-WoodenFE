@@ -1,5 +1,10 @@
 import { StaticImageData } from "next/image";
 
+export interface Category {
+  id: number;
+  name: string;
+}
+
 export interface Product {
   id: number;
   description: string;
@@ -22,9 +27,11 @@ export interface SearchBarProps {
 
 export interface ProductContextType {
   products: Product[];
+  categories: Category[];
   setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
   fetchProducts: () => Promise<void>;
   fetchProductsBySlug: (slug: string) => Promise<void>;
+  fetchCategories: () => Promise<void>;
   createNewProduct: (productData: FormData) => Promise<void>;
   updateExistingProduct: (id: number, productData: FormData) => Promise<void>;
   deleteExistingProduct: (id: number) => Promise<void>;

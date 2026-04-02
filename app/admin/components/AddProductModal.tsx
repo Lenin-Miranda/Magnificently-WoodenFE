@@ -1,11 +1,18 @@
 "use client";
-import { useState } from "react";
-import { Product } from "../../interfaces/products";
+import { useState, useEffect } from "react";
+import { Product, Category } from "../../interfaces/products";
 import { useProducts } from "@/app/context/ProductContext";
 
 export default function AddProductModal() {
-  const { showAddModal, setShowAddModal, createNewProduct, isLoading } =
-    useProducts();
+  const {
+    showAddModal,
+    setShowAddModal,
+    createNewProduct,
+    isLoading,
+    categories,
+    fetchCategories,
+  } = useProducts();
+
   const [productModal, setProductModal] = useState<Partial<Product>>({
     name: "",
     description: "",
@@ -19,6 +26,13 @@ export default function AddProductModal() {
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  // Fetch categories when modal opens
+  useEffect(() => {
+    if (showAddModal && categories.length === 0) {
+      fetchCategories();
+    }
+  }, [showAddModal, categories.length, fetchCategories]);
 
   const handleInputChange = (
     field: keyof Product,
@@ -197,12 +211,11 @@ export default function AddProductModal() {
                     required
                   >
                     <option value="">Select category</option>
-                    <option value="Toys">Toys</option>
-                    <option value="Furniture">Furniture</option>
-                    <option value="Kitchen">Kitchen</option>
-                    <option value="Decor">Decor</option>
-                    <option value="Accessories">Accessories</option>
-                    <option value="Games">Games</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
 

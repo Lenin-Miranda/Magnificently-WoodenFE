@@ -25,6 +25,14 @@ export const createProduct = async (productData: FormData) => {
   return res.data;
 };
 
+export const getCategories = async () => {
+  const res = await api.get("/products/categories/all", {
+    withCredentials: true,
+  });
+
+  return res.data;
+};
+
 export const updateProduct = async (id: number, productData: FormData) => {
   const res = await api.post(`/products/admin/update/${id}/`, productData, {
     withCredentials: true,

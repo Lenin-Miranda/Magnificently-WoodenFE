@@ -1,5 +1,9 @@
 "use client";
-import type { Product, ProductContextType } from "../interfaces/products";
+import type {
+  Product,
+  ProductContextType,
+  Category,
+} from "../interfaces/products";
 import { createContext, useContext, useState, ReactNode } from "react";
 import {
   getProducts,
@@ -7,12 +11,14 @@ import {
   createProduct,
   deleteProduct,
   updateProduct,
+  getCategories,
 } from "../lib/productApi";
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 export function ProductProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
@@ -72,6 +78,24 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error("Error fetching product by slug:", error);
       throw new Error("Failed to fetch product");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchCategories = async () => {
+    setIsLoading(true);
+    try {
+      // First try to fetch from API
+      const categoriesData = await getCategories();
+
+      if (!categoriesData) {
+        throw new Error("Failed to fetch categories");
+      }
+
+      setCategories(categoriesData);
+    } catch (e) {
+      console.error("Error fetching categories:", e);
     } finally {
       setIsLoading(false);
     }
@@ -178,9 +202,11 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     <ProductContext.Provider
       value={{
         products,
+        categories,
         setProducts,
         fetchProducts,
         fetchProductsBySlug,
+        fetchCategories,
         createNewProduct,
         updateExistingProduct,
         deleteExistingProduct,
