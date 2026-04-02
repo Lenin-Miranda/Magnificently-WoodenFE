@@ -9,11 +9,11 @@ export default function CartModal() {
 
   const totalPrice = isCartItems.reduce(
     (sum, item) => sum + item.price * (item.quantity || 1),
-    0
+    0,
   );
   const totalItems = isCartItems.reduce(
     (sum, item) => sum + (item.quantity || 1),
-    0
+    0,
   );
 
   return (
@@ -26,7 +26,7 @@ export default function CartModal() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeCart}
-            className="fixed inset-0 bg-cafe/50 dark:bg-blanco/10 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-cafe/50 dark:bg-verde/10 z-40"
           />
 
           {/* Modal */}
@@ -130,7 +130,7 @@ export default function CartModal() {
                               onClick={() =>
                                 updateQuantity(
                                   item.id,
-                                  (item.quantity || 1) - 1
+                                  (item.quantity || 1) - 1,
                                 )
                               }
                               disabled={(item.quantity || 1) <= 1}
@@ -157,7 +157,7 @@ export default function CartModal() {
                               onClick={() =>
                                 updateQuantity(
                                   item.id,
-                                  (item.quantity || 1) + 1
+                                  (item.quantity || 1) + 1,
                                 )
                               }
                               className="w-6 h-6 flex items-center justify-center text-cafe dark:text-blanco hover:bg-azul/20 dark:hover:bg-verde/20 rounded transition-colors"
@@ -238,7 +238,7 @@ export default function CartModal() {
               )}
               <button
                 disabled={isCartItems.length === 0}
-                className="w-full py-3 bg-azul dark:bg-verde text-blanco dark:text-cafe rounded-lg font-semibold hover:bg-azul/90 dark:hover:bg-verde/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-azul dark:disabled:hover:bg-verde"
+                className="w-full py-3 bg-azul dark:bg-verde text-blanco rounded-lg font-semibold hover:bg-azul/90 dark:hover:bg-verde/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-azul dark:disabled:hover:bg-verde"
               >
                 {isCartItems.length === 0
                   ? "Cart is Empty"
