@@ -38,12 +38,9 @@ export default function AdminProductsPage() {
       once: true,
       easing: "ease-out-cubic",
     });
-
-    // Cargar productos al montar el componente
     fetchProducts();
   }, []);
 
-  console.log("Products in Admin Page:", products);
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()

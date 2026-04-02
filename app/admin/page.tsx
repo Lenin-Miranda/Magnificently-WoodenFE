@@ -12,6 +12,11 @@ export default function AdminPage() {
   const router = useRouter();
   const [index, setIndex] = useState(3);
   const { products, fetchProducts } = useProducts();
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   useEffect(() => {
     AOS.init({
       duration: 1000,
