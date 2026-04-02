@@ -5,7 +5,7 @@ export interface User {
   phone_number?: string;
   first_name?: string;
   last_name?: string;
-  role?: "admin" | "user";
+  role?: "staff" | "user" | "superuser";
   created_at: string;
   updated_at: string;
 }

@@ -7,6 +7,9 @@ export interface Product {
   rating: number;
   category: string;
   inStock: number;
+  isFeatured?: boolean;
+  isActive?: boolean;
+  status: string | "available";
   image: string | StaticImageData | undefined;
   name: string;
   quantity?: number;

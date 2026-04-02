@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AOS from "aos";
 import { orders } from "../data/orders";
-import { products } from "../data/products";
+import { useProducts } from "../context/ProductContext";
 
 export default function AdminPage() {
   const { user, isLoading } = useLogin();
   const router = useRouter();
   const [index, setIndex] = useState(3);
-
+  const { products, fetchProducts } = useProducts();
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -20,12 +20,14 @@ export default function AdminPage() {
     });
   }, []);
 
-  /* useEffect(() => {
-    if (!isLoading && (!user || user.role !== "admin")) {
+  useEffect(() => {
+    if (
+      !isLoading &&
+      (!user || (user.role !== "superuser" && user.role !== "staff"))
+    ) {
       router.push("/");
     }
   }, [user, isLoading, router]);
-  */
 
   function seeMoreOrders() {
     if (index + 3 < orders.length) {
@@ -51,10 +53,9 @@ export default function AdminPage() {
     );
   }
 
-  /*  if (!user || user.role !== "admin") {
+  if (!user || (user.role !== "superuser" && user.role !== "staff")) {
     return null;
-    }
-  */
+  }
 
   return (
     <div className="min-h-screen bg-blanco dark:bg-cafe">
@@ -83,15 +84,15 @@ export default function AdminPage() {
           >
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-cafe dark:text-blanco text-2xl font-display font-bold">
-                Pedidos Recientes
+                Recent Orders
               </h2>
               <span className="text-sm text-cafe/60 dark:text-blanco/60 font-medium">
                 {index} de {orders.length}
               </span>
             </div>
             <p className="text-cafe dark:text-blanco/60 mb-4">
-              Aquí puedes ver y gestionar los pedidos recientes realizados en la
-              tienda.
+              Here you can view and manage the recent orders placed in the
+              store.
             </p>
 
             <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
@@ -178,14 +179,14 @@ export default function AdminPage() {
           >
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-cafe dark:text-blanco text-2xl font-display font-bold">
-                Stock Bajo
+                Low Stock Products
               </h2>
               <span className="text-sm text-cafe/60 dark:text-blanco/60 font-medium">
-                {products.filter((p) => p.inStock <= 10).length} productos
+                {products.filter((p) => p.inStock <= 10).length} products
               </span>
             </div>
             <p className="text-cafe dark:text-blanco/60 mb-4">
-              Productos que necesitan ser reabastecidos urgentemente.
+              Products that need to be restocked urgently.
             </p>
 
             <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2">

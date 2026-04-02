@@ -76,7 +76,7 @@ export default function NavBar() {
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-6 ">
           <ul className="flex items-center justify-center gap-8 font-sans font-medium text-base">
             <li className="text-cafe dark:text-blanco hover:text-azul dark:hover:text-verde cursor-pointer transition-all duration-300 ease-in-out hover:scale-110">
               Home
@@ -154,7 +154,8 @@ export default function NavBar() {
                       </div>
 
                       <div className="space-y-2">
-                        {user?.role === "admin" && (
+                        {(user?.role === "superuser" ||
+                          user?.role === "staff") && (
                           <Link
                             href="/admin"
                             className="block px-4 py-2 text-azul dark:text-verde font-semibold hover:bg-azul/10 dark:hover:bg-verde/10 rounded-lg transition-all duration-300"
