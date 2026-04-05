@@ -8,12 +8,6 @@ export default function CallToAction() {
       {/* Background image overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-cafe/95 via-cafe/90 to-cafe/95 dark:from-azul/95 dark:via-azul/90 dark:to-azul/95"></div>
 
-      {/* Decorative elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-20 w-96 h-96 bg-madera rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-verde rounded-full blur-3xl"></div>
-      </div>
-
       {/* Pattern overlay */}
       <div
         className="absolute inset-0 opacity-5"
