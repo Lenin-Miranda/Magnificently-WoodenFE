@@ -30,7 +30,7 @@ export default function Hero() {
 
         <p
           data-aos="fade-right"
-          data-aos-delay="4000"
+          data-aos-delay="400"
           className="mt-6 max-w-2xl text-sm sm:text-base md:text-lg font-sans text-cafe/70 dark:text-blanco/90 leading-relaxed px-4"
         >
           Your one-stop shop for all things wooden! Explore our exquisite
@@ -40,7 +40,7 @@ export default function Hero() {
 
         <div
           data-aos="fade-up"
-          data-aos-delay="4400"
+          data-aos-delay="440"
           className="flex gap-4 mt-8 flex-wrap justify-center"
         >
           <button className="group relative rounded-full bg-azul dark:bg-verde px-8 py-3 text-lg font-semibold text-blanco hover:brightness-110 hover:scale-105 transition-all duration-300 ease-in-out shadow-lg hover:shadow-2xl cursor-pointer overflow-hidden">
@@ -56,7 +56,7 @@ export default function Hero() {
         {/* Social proof / stats */}
         <div
           data-aos="fade-up"
-          data-aos-delay="5000"
+          data-aos-delay="400"
           className="flex gap-8 mt-12 text-center flex-wrap justify-center"
         >
           <div>

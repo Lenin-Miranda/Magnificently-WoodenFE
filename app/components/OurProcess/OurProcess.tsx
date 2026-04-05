@@ -92,12 +92,6 @@ const processSteps = [
 export default function OurProcess() {
   return (
     <section className="w-full min-h-screen flex flex-col items-center justify-center py-16 px-8 bg-azul dark:bg-madera relative overflow-hidden">
-      {/* Decorative background */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-40 left-20 w-96 h-96 bg-madera rounded-full blur-3xl"></div>
-        <div className="absolute bottom-40 right-20 w-96 h-96 bg-cafe dark:bg-verde rounded-full blur-3xl"></div>
-      </div>
-
       <div className="max-w-7xl w-full relative z-10">
         <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-blanco dark:text-cafe mb-4">
