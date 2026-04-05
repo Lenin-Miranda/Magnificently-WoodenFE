@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 interface TypewriterTextProps {
   text: string;
@@ -15,22 +15,28 @@ export default function TypewriterText({
   delay = 0,
   speed = 100,
 }: TypewriterTextProps) {
-  const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
+    setCurrentIndex(0);
+  }, [text]);
+
+  useEffect(() => {
+    if (currentIndex >= text.length) return;
+
     const timeout = setTimeout(
       () => {
-        if (currentIndex < text.length) {
-          setDisplayText((prev) => prev + text[currentIndex]);
-          setCurrentIndex((prev) => prev + 1);
-        }
+        setCurrentIndex((prev) => prev + 1);
       },
-      currentIndex === 0 ? delay : speed
+      currentIndex === 0 ? delay : speed,
     );
 
     return () => clearTimeout(timeout);
   }, [currentIndex, text, delay, speed]);
+
+  const displayText = useMemo(() => {
+    return text.slice(0, currentIndex);
+  }, [text, currentIndex]);
 
   return (
     <span className={className}>

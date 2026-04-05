@@ -7,12 +7,6 @@ import woodenPlane from "../../../public/pngtree-classic-wooden-toy-airplane-wit
 export default function Hero() {
   return (
     <section className="relative flex border-b border-madera/40 min-h-[calc(100vh-88px)] justify-center items-center w-full overflow-hidden py-12">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-madera rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-azul dark:bg-verde rounded-full blur-3xl"></div>
-      </div>
-
       <div
         className="flex flex-1 py-6 flex-col items-center w-full justify-center px-4 md:px-20 text-center relative z-10"
         data-aos="fade-up"
@@ -98,7 +92,7 @@ export default function Hero() {
         <Image
           data-aos="fade-left"
           data-aos-delay="300"
-          className="relative mt-8 w-full max-w-md h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+          className="relative mt-8 w-full max-w-md h-auto hover:scale-105 transition-transform duration-500"
           src={woodenPlane}
           alt="Wooden Products Banner"
           priority
