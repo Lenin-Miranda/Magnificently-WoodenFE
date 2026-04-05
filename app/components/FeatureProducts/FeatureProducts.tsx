@@ -203,10 +203,6 @@ export default function FeatureProducts({
                       Add to Cart
                     </button>
                   </div>
-
-                  {/* Decorative Elements */}
-                  <div className="absolute -top-2 -right-2 w-20 h-20 bg-gradient-to-br from-madera/10 to-transparent dark:from-verde/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="absolute -bottom-2 -left-2 w-16 h-16 bg-gradient-to-tr from-azul/10 to-transparent dark:from-verde/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 </li>
               ))}
             </ul>
