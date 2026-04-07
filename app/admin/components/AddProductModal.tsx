@@ -96,7 +96,7 @@ export default function AddProductModal() {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm transition-all duration-300 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center transition-all duration-300 ${
         showAddModal ? "opacity-100 visible" : "opacity-0 invisible"
       }`}
       style={{
