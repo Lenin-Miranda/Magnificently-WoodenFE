@@ -1,36 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { testimonials } from "../../data/testimonials";
+
+// Moved outside component — no re-created on every render
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 400 : -400,
+    opacity: 0,
+  }),
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    zIndex: 0,
+    x: direction < 0 ? 400 : -400,
+    opacity: 0,
+  }),
+};
+
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset: number, velocity: number) =>
+  Math.abs(offset) * velocity;
 
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
-  const slideVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0,
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1,
-    },
-    exit: (direction: number) => ({
-      zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
-      opacity: 0,
-    }),
-  };
-
-  const swipeConfidenceThreshold = 10000;
-  const swipePower = (offset: number, velocity: number) => {
-    return Math.abs(offset) * velocity;
-  };
-
-  const paginate = (newDirection: number) => {
+  const paginate = useCallback((newDirection: number) => {
     setDirection(newDirection);
     setCurrentIndex((prevIndex) => {
       const nextIndex = prevIndex + newDirection;
@@ -38,7 +38,7 @@ export default function Testimonials() {
       if (nextIndex >= testimonials.length) return 0;
       return nextIndex;
     });
-  };
+  }, []);
 
   return (
     <section
@@ -46,21 +46,24 @@ export default function Testimonials() {
       data-aos="fade-up"
     >
       <div className="max-w-6xl w-full relative z-10">
-        <div data-aos="fade-down" className="text-center mb-12 px-4">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-cafe dark:text-cafe mb-4">
+        <div className="text-center mb-12 px-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-azul dark:text-cafe mb-4">
             What Our Customers Say
           </h2>
-          <p className="text-cafe/70 dark:text-cafe/80 text-base md:text-lg max-w-2xl mx-auto">
+          <div className="flex items-center gap-4 max-w-xs mx-auto my-6">
+            <div className="flex-1 h-px bg-madera/40 dark:bg-cafe/30" />
+            <span className="text-madera dark:text-cafe/70 text-lg">✦</span>
+            <div className="flex-1 h-px bg-madera/40 dark:bg-cafe/30" />
+          </div>
+          <p className="text-cafe/70 dark:text-blanco/70 text-base md:text-lg max-w-2xl mx-auto">
             Don&apos;t just take our word for it. Here&apos;s what our satisfied
             customers have to say about their experience.
           </p>
         </div>
 
-        <div
-          data-aos="zoom-in"
-          className="relative min-h-[400px] md:h-[400px] flex items-center justify-center px-4 md:px-0"
-        >
-          <AnimatePresence initial={false} custom={direction} mode="wait">
+        <div className="relative min-h-[400px] md:h-[400px] flex items-center justify-center px-4 md:px-0">
+          {/* AnimatePresence without mode="wait" so enter/exit overlap — much smoother */}
+          <AnimatePresence initial={false} custom={direction}>
             <motion.div
               key={currentIndex}
               custom={direction}
@@ -69,22 +72,18 @@ export default function Testimonials() {
               animate="center"
               exit="exit"
               transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 },
+                x: { type: "spring", stiffness: 250, damping: 28 },
+                opacity: { duration: 0.15 },
               }}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={1}
+              dragElastic={0.1}
               onDragEnd={(e, { offset, velocity }) => {
                 const swipe = swipePower(offset.x, velocity.x);
-
-                if (swipe < -swipeConfidenceThreshold) {
-                  paginate(1);
-                } else if (swipe > swipeConfidenceThreshold) {
-                  paginate(-1);
-                }
+                if (swipe < -swipeConfidenceThreshold) paginate(1);
+                else if (swipe > swipeConfidenceThreshold) paginate(-1);
               }}
-              className="absolute w-full max-w-[240px] sm:max-w-md md:max-w-2xl lg:max-w-4xl"
+              className="absolute w-full max-w-[240px] sm:max-w-md md:max-w-2xl lg:max-w-4xl will-change-transform"
             >
               <div className="bg-white dark:bg-cafe/50 rounded-2xl shadow-2xl p-6 md:p-8 lg:p-12 border border-madera/20">
                 <div className="flex flex-col md:flex-row items-center gap-8">
@@ -92,7 +91,7 @@ export default function Testimonials() {
                     <img
                       src={testimonials[currentIndex].image}
                       alt={testimonials[currentIndex].name}
-                      className="w-16 h-16 sm:w-20 sm:h-20 md:w-32 md:h-32 rounded-full border-4 border-azul dark:border-verde shadow-lg"
+                      className="w-16 h-16 sm:w-20 sm:h-20 md:w-32 md:h-32 rounded-full border-4 border-azul dark:border-verde"
                     />
                   </div>
 
@@ -116,10 +115,10 @@ export default function Testimonials() {
                     </p>
 
                     <div>
-                      <h4 className="text-sm sm:text-base md:text-lg lg:text-xl font-display font-bold text-cafe dark:text-cafe mb-1">
+                      <h4 className="text-sm sm:text-base md:text-lg lg:text-xl font-display font-bold text-cafe dark:text-madera mb-1">
                         {testimonials[currentIndex].name}
                       </h4>
-                      <p className="text-cafe/60 dark:text-cafe/80 text-xs sm:text-sm">
+                      <p className="text-cafe/60 dark:text-blanco/60 text-xs sm:text-sm">
                         {testimonials[currentIndex].role}
                       </p>
                     </div>
@@ -132,7 +131,7 @@ export default function Testimonials() {
           {/* Navigation buttons */}
           <button
             onClick={() => paginate(-1)}
-            className="absolute left-2 md:left-0 lg:-left-16 z-10 bg-azul dark:bg-verde text-blanco p-3 md:p-4 rounded-full shadow-lg hover:brightness-110 transition-all duration-300 hover:scale-110"
+            className="absolute left-2 md:left-0 lg:-left-16 z-10 bg-azul dark:bg-verde text-blanco p-3 md:p-4 rounded-full hover:brightness-110 transition-all duration-300 hover:scale-110"
             aria-label="Previous testimonial"
           >
             <svg
@@ -152,7 +151,7 @@ export default function Testimonials() {
 
           <button
             onClick={() => paginate(1)}
-            className="absolute right-2 md:right-0 lg:-right-16 z-10 bg-azul dark:bg-verde text-blanco p-3 md:p-4 rounded-full shadow-lg hover:brightness-110 transition-all duration-300 hover:scale-110"
+            className="absolute right-2 md:right-0 lg:-right-16 z-10 bg-azul dark:bg-verde text-blanco p-3 md:p-4 rounded-full hover:brightness-110 transition-all duration-300 hover:scale-110"
             aria-label="Next testimonial"
           >
             <svg
@@ -180,10 +179,10 @@ export default function Testimonials() {
                 setDirection(index > currentIndex ? 1 : -1);
                 setCurrentIndex(index);
               }}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              className={`h-3 rounded-full transition-all duration-300 ${
                 index === currentIndex
                   ? "bg-azul dark:bg-verde w-8"
-                  : "bg-cafe/30 dark:bg-blanco/30 hover:bg-cafe/50 dark:hover:bg-blanco/50"
+                  : "w-3 bg-cafe/30 dark:bg-blanco/30 hover:bg-cafe/50 dark:hover:bg-blanco/50"
               }`}
               aria-label={`Go to testimonial ${index + 1}`}
             />
