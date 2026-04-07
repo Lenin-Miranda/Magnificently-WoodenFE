@@ -19,10 +19,6 @@ export default function Hero() {
       {/* Overlay — light: blanco suave, dark: cafe profundo */}
       <div className="absolute inset-0 bg-blanco/70 dark:bg-cafe/85" />
 
-      {/* Decorative blurs */}
-      <div className="absolute top-16 left-8 w-64 h-64 bg-madera/20 dark:bg-madera/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-16 right-8 w-72 h-72 bg-azul/10 dark:bg-verde/10 rounded-full blur-3xl pointer-events-none" />
-
       {/* Content */}
       <div
         className="relative z-10 flex flex-col items-center w-full max-w-6xl mx-auto px-6 md:px-8 text-center"
@@ -35,13 +31,11 @@ export default function Hero() {
             <TypewriterText text="Welcome to" className="inline-block" />
           </span>
           <br />
-          <span className="max-w-full bg-gradient-to-r from-azul to-azul/60 dark:from-madera dark:to-madera/60 bg-clip-text text-transparent">
-            <TypewriterText
-              text="Magnificently Wooden"
-              className="inline-block"
-              delay={1000}
-            />
-          </span>
+          <TypewriterText
+            text="Magnificently Wooden"
+            className="inline-block bg-gradient-to-r from-azul to-azul/60 dark:from-madera dark:to-madera/60 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]"
+            delay={1000}
+          />
         </h1>
 
         {/* Ornament divider */}

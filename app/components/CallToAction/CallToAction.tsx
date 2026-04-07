@@ -23,14 +23,6 @@ export default function CallToAction() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          {/* Badge */}
-          <div
-            className="inline-block mb-6 px-6 py-2 bg-madera/20 dark:bg-verde/20 rounded-full text-sm font-medium text-blanco border border-madera/30"
-            data-aos="fade-down"
-          >
-            ✨ Limited Time Offer
-          </div>
-
           {/* Main heading */}
           <h2
             className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-blanco mb-6 leading-tight"

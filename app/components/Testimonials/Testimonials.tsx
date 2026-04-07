@@ -85,7 +85,7 @@ export default function Testimonials() {
               }}
               className="absolute w-full max-w-[240px] sm:max-w-md md:max-w-2xl lg:max-w-4xl will-change-transform"
             >
-              <div className="bg-white dark:bg-cafe/50 rounded-2xl shadow-2xl p-6 md:p-8 lg:p-12 border border-madera/20">
+              <div className="bg-white dark:bg-cafe/50 rounded-2xl shadow-xl p-6 md:p-8 lg:p-12 border border-madera/20">
                 <div className="flex flex-col md:flex-row items-center gap-8">
                   <div className="flex-shrink-0">
                     <img
