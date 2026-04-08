@@ -6,6 +6,7 @@ import AOS from "aos";
 import { useProducts } from "@/app/context/ProductContext";
 import AddProductModal from "../components/AddProductModal";
 import DeleteProductModal from "../components/DeleteProductModal";
+import ManageImagesModal from "../components/ManageImagesModal";
 import { deleteProduct } from "@/app/lib/productApi";
 
 export default function AdminProductsPage() {
@@ -15,9 +16,11 @@ export default function AdminProductsPage() {
     fetchProducts,
     isLoading,
     setShowDeleteModal,
+    setSelectedProduct,
   } = useProducts();
   const [productToEdit, setProductToEdit] = useState(null);
   const [productToDelete, setProductToDelete] = useState<number | null>(null);
+  const [showManageImages, setShowManageImages] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -81,6 +84,10 @@ export default function AdminProductsPage() {
       <AdminNavBar />
       <AddProductModal />
       {productToDelete !== null && <DeleteProductModal id={productToDelete} />}
+      <ManageImagesModal
+        isOpen={showManageImages}
+        setIsOpen={setShowManageImages}
+      />
       <main className="max-w-7xl mx-auto px-4 py-12">
         {/* Header */}
         <div
@@ -367,6 +374,30 @@ export default function AdminProductsPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right">
                         <div className="flex items-center justify-end gap-2">
+                          {/* Manage Images */}
+                          <button
+                            onClick={() => {
+                              setSelectedProduct(product);
+                              setShowManageImages(true);
+                            }}
+                            title="Manage images"
+                            className="p-2 text-madera dark:text-madera hover:bg-madera/10 dark:hover:bg-madera/10 rounded-lg transition-all duration-300"
+                          >
+                            <svg
+                              className="w-5 h-5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                              />
+                            </svg>
+                          </button>
+                          {/* Edit */}
                           <button className="p-2 text-azul dark:text-verde hover:bg-azul/10 dark:hover:bg-verde/10 rounded-lg transition-all duration-300">
                             <svg
                               className="w-5 h-5"

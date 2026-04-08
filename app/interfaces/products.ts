@@ -5,6 +5,12 @@ export interface Category {
   name: string;
 }
 
+export interface ProductImage {
+  id: number;
+  image: string;
+  alt?: string;
+}
+
 export interface Product {
   id: number;
   description: string;
@@ -16,6 +22,7 @@ export interface Product {
   isActive?: boolean;
   status: string | "available";
   image: string | StaticImageData | undefined;
+  images?: ProductImage[];
   name: string;
   quantity?: number;
 }
@@ -42,4 +49,6 @@ export interface ProductContextType {
   setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   selectedProduct: Product | null;
   setSelectedProduct: React.Dispatch<React.SetStateAction<Product | null>>;
+  addProductImages: (productId: number, formData: FormData) => Promise<void>;
+  removeProductImage: (imageId: number, productId: number) => Promise<void>;
 }

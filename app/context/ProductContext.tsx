@@ -12,6 +12,8 @@ import {
   deleteProduct,
   updateProduct,
   getCategories,
+  uploadProductImages,
+  deleteProductImage,
 } from "../lib/productApi";
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
@@ -61,6 +63,8 @@ export function ProductProvider({ children }: { children: ReactNode }) {
             : product.category,
         // Map main_image from backend to image expected by frontend
         image: product.main_image || product.image,
+        // Map additional images array
+        images: product.images || [],
       }));
       setProducts(parsedProducts);
     } catch (error) {
@@ -199,6 +203,62 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Internal helper: re-fetch all products and sync selectedProduct for a given id
+  const refreshAfterImageOp = async (productId: number) => {
+    try {
+      const raw = await getProducts();
+      const arr = Array.isArray(raw)
+        ? raw
+        : raw.results || raw.data || raw.products || [];
+      const parsed = arr.map((p: any) => ({
+        ...p,
+        price: typeof p.price === "string" ? parseFloat(p.price) : p.price,
+        inStock:
+          typeof p.inStock === "string" ? parseInt(p.inStock) : p.inStock,
+        rating: typeof p.rating === "string" ? parseFloat(p.rating) : p.rating,
+        category:
+          typeof p.category === "object" && p.category !== null
+            ? (p.category as any)?.name ||
+              (p.category as any)?.slug ||
+              "Unknown"
+            : p.category,
+        image: p.main_image || p.image,
+        images: p.images || [],
+      }));
+      setProducts(parsed);
+      const updated = parsed.find((p: any) => p.id === productId) ?? null;
+      if (updated) setSelectedProduct(updated);
+    } catch (err) {
+      console.error("Failed to refresh products after image operation:", err);
+    }
+  };
+
+  const addProductImages = async (productId: number, formData: FormData) => {
+    setIsLoading(true);
+    try {
+      await uploadProductImages(productId, formData);
+      await refreshAfterImageOp(productId);
+    } catch (error) {
+      console.error("Error uploading images:", error);
+      throw new Error("Failed to upload images");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const removeProductImage = async (imageId: number, productId: number) => {
+    setIsLoading(true);
+    try {
+      await deleteProductImage(imageId);
+      await refreshAfterImageOp(productId);
+    } catch (error) {
+      console.error("Error deleting image:", error);
+      throw new Error("Failed to delete image");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -218,6 +278,8 @@ export function ProductProvider({ children }: { children: ReactNode }) {
         setShowDeleteModal,
         selectedProduct,
         setSelectedProduct,
+        addProductImages,
+        removeProductImage,
       }}
     >
       {children}

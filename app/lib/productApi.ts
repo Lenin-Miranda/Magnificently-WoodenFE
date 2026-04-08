@@ -51,3 +51,23 @@ export const deleteProduct = async (id: number) => {
 
   return res.data;
 };
+
+export const uploadProductImages = async (
+  productId: number,
+  formData: FormData,
+) => {
+  const res = await api.post(`/products/admin/${productId}/images/`, formData, {
+    withCredentials: true,
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+  return res.data;
+};
+
+export const deleteProductImage = async (id: number) => {
+  const res = await api.delete(`/products/admin/images/${id}/delete/`, {
+    withCredentials: true,
+  });
+
+  return res.data;
+};

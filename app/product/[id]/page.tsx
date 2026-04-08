@@ -6,7 +6,7 @@ import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import CartModal from "../../components/cartModal/CartModal";
 import { useCart } from "../../context/CartContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -17,9 +17,25 @@ export default function ProductPage() {
   const { products, fetchProducts, isLoading } = useProducts();
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
+  const [activeImg, setActiveImg] = useState(0);
 
   const productId = Number(params.id);
   const product = products.find((p) => p.id === productId);
+
+  // Build ordered image list: main image first, then deduplicated extras
+  const allProductImages = useMemo(() => {
+    if (!product) return [];
+    const main =
+      typeof product.image === "string"
+        ? product.image
+        : (product.image as { src: string })?.src;
+    const extras = (product.images ?? [])
+      .map((img) => img.image)
+      .filter(Boolean) as string[];
+    if (!main) return extras;
+    const deduped = extras.filter((url) => url !== main);
+    return [main, ...deduped];
+  }, [product]);
 
   useEffect(() => {
     AOS.init({
@@ -117,33 +133,100 @@ export default function ProductPage() {
 
             {/* Product Details */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Product Image */}
-              <div
-                className="relative aspect-square bg-gradient-to-br from-madera/20 to-madera/5 dark:from-cafe/20 dark:to-cafe/85 rounded-2xl overflow-hidden shadow-2xl"
-                data-aos="fade-right"
-                data-aos-delay="200"
-              >
-                <img
-                  src={
-                    typeof product.image === "string"
-                      ? product.image
-                      : product.image?.src || "/placeholder.jpg"
-                  }
-                  alt={product.name}
-                  className="object-cover w-full h-full"
-                />
-                {product.inStock < 15 && (
-                  <div className="absolute top-4 left-4">
-                    <span className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-red-100 text-red-800">
-                      Low Stock
+              {/* Product Image Gallery */}
+              <div data-aos="fade-right" data-aos-delay="200">
+                {/* Main image */}
+                <div className="relative aspect-square bg-gradient-to-br from-madera/20 to-madera/5 dark:from-cafe/20 dark:to-cafe/85 rounded-2xl overflow-hidden shadow-2xl">
+                  <img
+                    src={allProductImages[activeImg] || "/placeholder.jpg"}
+                    alt={product.name}
+                    className="object-cover w-full h-full transition-opacity duration-300"
+                  />
+                  {product.inStock < 15 && (
+                    <div className="absolute top-4 left-4">
+                      <span className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                        Low Stock
+                      </span>
+                    </div>
+                  )}
+                  <div className="absolute top-4 right-4">
+                    <span className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-madera/90 dark:bg-verde/90 text-cafe dark:text-blanco">
+                      {product.category}
                     </span>
                   </div>
-                )}
-                <div className="absolute top-4 right-4">
-                  <span className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-madera/90 dark:bg-verde/90 text-cafe dark:text-blanco">
-                    {product.category}
-                  </span>
+                  {/* Prev / Next arrows when multiple images */}
+                  {allProductImages.length > 1 && (
+                    <>
+                      <button
+                        onClick={() =>
+                          setActiveImg(
+                            (i) =>
+                              (i - 1 + allProductImages.length) %
+                              allProductImages.length,
+                          )
+                        }
+                        className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-blanco/80 dark:bg-cafe/80 hover:bg-blanco dark:hover:bg-cafe text-cafe dark:text-blanco shadow-md transition-all duration-200 hover:scale-110"
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2.5}
+                            d="M15 19l-7-7 7-7"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() =>
+                          setActiveImg((i) => (i + 1) % allProductImages.length)
+                        }
+                        className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-blanco/80 dark:bg-cafe/80 hover:bg-blanco dark:hover:bg-cafe text-cafe dark:text-blanco shadow-md transition-all duration-200 hover:scale-110"
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2.5}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </button>
+                    </>
+                  )}
                 </div>
+
+                {/* Thumbnail strip */}
+                {allProductImages.length > 1 && (
+                  <div className="mt-4 flex gap-3 overflow-x-auto pb-1">
+                    {allProductImages.map((src, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setActiveImg(i)}
+                        className={`shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-200 ${
+                          i === activeImg
+                            ? "border-azul dark:border-verde scale-105 shadow-lg"
+                            : "border-madera/20 dark:border-verde/20 opacity-60 hover:opacity-100 hover:scale-105"
+                        }`}
+                      >
+                        <img
+                          src={src}
+                          alt={product.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Product Info */}
