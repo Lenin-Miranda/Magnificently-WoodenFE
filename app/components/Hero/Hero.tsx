@@ -80,7 +80,7 @@ export default function Hero() {
         >
           <div>
             <div className="text-3xl md:text-4xl font-display font-bold text-azul dark:text-madera">
-              500+
+              30+
             </div>
             <div className="text-xs md:text-sm text-cafe/60 dark:text-blanco/60 mt-1">
               Products
@@ -89,7 +89,7 @@ export default function Hero() {
           <div className="w-px bg-madera/40 hidden md:block" />
           <div>
             <div className="text-3xl md:text-4xl font-display font-bold text-azul dark:text-madera">
-              1000+
+              100+
             </div>
             <div className="text-xs md:text-sm text-cafe/60 dark:text-blanco/60 mt-1">
               Happy Customers
@@ -98,7 +98,7 @@ export default function Hero() {
           <div className="w-px bg-madera/40 hidden md:block" />
           <div>
             <div className="text-3xl md:text-4xl font-display font-bold text-azul dark:text-madera">
-              15+
+              3+
             </div>
             <div className="text-xs md:text-sm text-cafe/60 dark:text-blanco/60 mt-1">
               Years Experience

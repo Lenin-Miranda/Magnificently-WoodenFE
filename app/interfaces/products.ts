@@ -40,4 +40,6 @@ export interface ProductContextType {
   setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
   showDeleteModal: boolean;
   setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedProduct: Product | null;
+  setSelectedProduct: React.Dispatch<React.SetStateAction<Product | null>>;
 }

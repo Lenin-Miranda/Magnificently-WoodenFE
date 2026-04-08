@@ -22,6 +22,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const fetchProducts = async () => {
     setIsLoading(true);
@@ -215,6 +216,8 @@ export function ProductProvider({ children }: { children: ReactNode }) {
         setShowAddModal,
         showDeleteModal,
         setShowDeleteModal,
+        selectedProduct,
+        setSelectedProduct,
       }}
     >
       {children}

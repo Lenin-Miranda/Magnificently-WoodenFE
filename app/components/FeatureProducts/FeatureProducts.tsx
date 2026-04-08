@@ -1,21 +1,37 @@
 import { Product } from "../../interfaces/products";
 import { useRouter } from "next/navigation";
+import PreviewModal from "../PreviewModal/PreviewModal";
+import { useProducts } from "@/app/context/ProductContext";
+import { useState } from "react";
 
 export default function FeatureProducts({
   products,
 }: {
   products?: Product[];
 }) {
-  console.log("Received products in FeatureProducts:", products);
   const router = useRouter();
+  const { setSelectedProduct } = useProducts();
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
-  // Filter featured products and limit to last 4 added
   const featuredProducts =
     products?.filter((product) => product.isFeatured === true).slice(-4) || [];
 
   const handleProductClick = (productId: number) => {
     router.push(`/product/${productId}`);
   };
+
+  function handleQuickView(
+    productId: number,
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) {
+    e.stopPropagation();
+    const product = products?.find((p) => p.id === productId);
+    if (product) {
+      setSelectedProduct(product);
+      setIsPreviewOpen(true);
+    }
+    return null;
+  }
 
   return (
     <div
@@ -89,8 +105,8 @@ export default function FeatureProducts({
                     {/* Quick View Button */}
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
                       <button
-                        onClick={(e) => e.stopPropagation()}
-                        className="bg-white/90 dark:bg-cafe/90 text-cafe dark:text-blanco px-6 py-2 rounded-full font-semibold shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 hover:bg-white dark:hover:bg-cafe"
+                        onClick={(e) => handleQuickView(product.id, e)}
+                        className="bg-white/90 cursor-pointer dark:bg-cafe/90 text-cafe dark:text-blanco px-6 py-2 rounded-full font-semibold shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 hover:bg-white dark:hover:bg-cafe"
                       >
                         Quick View
                       </button>
@@ -236,6 +252,12 @@ export default function FeatureProducts({
               to discover our latest handcrafted wooden treasures!
             </p>
           </div>
+        )}
+        {isPreviewOpen && (
+          <PreviewModal
+            isOpen={isPreviewOpen}
+            setIsPreviewOpen={setIsPreviewOpen}
+          />
         )}
       </div>
     </div>

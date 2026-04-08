@@ -38,4 +38,3 @@ export const testimonials: Testimonial[] = [
     image: "https://i.pravatar.cc/150?img=12",
   },
 ];
-
