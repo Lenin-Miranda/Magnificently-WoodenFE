@@ -174,7 +174,7 @@ export default function PreviewModal({
 
               {/* Thumbnail strip — only when multiple images */}
               {allImages.length > 1 && (
-                <div className="px-4 pt-3 flex gap-2 overflow-x-auto scrollbar-hide">
+                <div className="px-4 pt-3 h-16 flex gap-2 overflow-x-auto scrollbar-hide">
                   {allImages.map((src, i) => (
                     <button
                       key={i}

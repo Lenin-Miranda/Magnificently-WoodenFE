@@ -106,7 +106,7 @@ export default function AddProductModal() {
       }}
     >
       <div
-        className={`bg-gradient-to-br from-blanco to-madera/5 dark:from-cafe dark:to-verde/10 rounded-2xl shadow-2xl w-full max-w-4xl mx-4 my-4 transform transition-all duration-300 ${
+        className={`bg-gradient-to-br from-blanco to-blanco/80 dark:from-cafe dark:to-cafe/80 rounded-2xl shadow-2xl w-full max-w-4xl mx-4 my-4 transform transition-all duration-300 ${
           showAddModal ? "scale-100 translate-y-0" : "scale-95 translate-y-4"
         }`}
       >

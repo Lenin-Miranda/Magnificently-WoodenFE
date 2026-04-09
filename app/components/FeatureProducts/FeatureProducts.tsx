@@ -55,7 +55,6 @@ export default function FeatureProducts({
         {featuredProducts.length > 0 ? (
           <div className="w-full max-w-fit">
             <ul
-              data-aos="fade-up"
               className={`grid gap-8 justify-items-center ${
                 featuredProducts.length === 1
                   ? "grid-cols-1"
@@ -69,8 +68,11 @@ export default function FeatureProducts({
               {featuredProducts.map((product, index) => (
                 <li
                   key={product.id}
+                  data-aos="fade-up"
+                  data-aos-delay={index * 100}
+                  data-aos-once="true"
                   onClick={() => handleProductClick(product.id)}
-                  className="group relative bg-gradient-to-br from-madera/20 to-madera/10 dark:from-madera dark:to-madera/90 w-full min-w-[320px] max-w-[350px] rounded-2xl overflow-hidden hover:scale-[1.02] transition-all duration-500 shadow-lg shadow-azul/20 hover:shadow-2xl hover:shadow-azul/30 dark:shadow-verde/20 dark:hover:shadow-verde/30 border border-madera/10 dark:border-verde/20 cursor-pointer"
+                  className="group relative bg-gradient-to-br from-madera/20 to-madera/10 dark:from-madera dark:to-madera/90 w-full min-w-[320px] max-w-[350px] rounded-2xl overflow-hidden hover:scale-[1.02] transition-transform duration-500 will-change-transform shadow-lg shadow-azul/20 hover:shadow-2xl hover:shadow-azul/30 dark:shadow-verde/20 dark:hover:shadow-verde/30 border border-madera/10 dark:border-verde/20 cursor-pointer"
                 >
                   {/* Featured Badge */}
                   <div className="absolute top-4 left-4 z-20">

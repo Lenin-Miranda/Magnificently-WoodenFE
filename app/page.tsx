@@ -20,7 +20,7 @@ export default function Home() {
     AOS.init({
       duration: 1000,
       once: true,
-      easing: "ease-out-cubic",
+      easing: "ease",
     });
   }, []);
   const { products, fetchProducts } = useProducts();
