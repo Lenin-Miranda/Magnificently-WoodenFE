@@ -103,7 +103,10 @@ export default function AdminProductsPage() {
             </p>
           </div>
           <button
-            onClick={() => setShowAddModal(true)}
+            onClick={() => {
+              setSelectedProduct(null);
+              setShowAddModal(true);
+            }}
             className="flex items-center cursor-pointer gap-2 px-6 py-3 bg-azul dark:bg-verde text-blanco rounded-xl hover:bg-azul/90 dark:hover:bg-verde/90 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
           >
             <svg
@@ -398,7 +401,14 @@ export default function AdminProductsPage() {
                             </svg>
                           </button>
                           {/* Edit */}
-                          <button className="p-2 text-azul dark:text-verde hover:bg-azul/10 dark:hover:bg-verde/10 rounded-lg transition-all duration-300">
+                          <button
+                            onClick={() => {
+                              setSelectedProduct(product);
+                              setShowAddModal(true);
+                            }}
+                            title="Edit product"
+                            className="p-2 text-azul dark:text-verde hover:bg-azul/10 dark:hover:bg-verde/10 rounded-lg transition-all duration-300"
+                          >
                             <svg
                               className="w-5 h-5"
                               fill="none"

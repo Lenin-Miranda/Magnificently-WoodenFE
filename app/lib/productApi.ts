@@ -34,7 +34,7 @@ export const getCategories = async () => {
 };
 
 export const updateProduct = async (id: number, productData: FormData) => {
-  const res = await api.post(`/products/admin/update/${id}/`, productData, {
+  const res = await api.patch(`/products/admin/update/${id}/`, productData, {
     withCredentials: true,
     headers: {
       "Content-Type": "multipart/form-data",

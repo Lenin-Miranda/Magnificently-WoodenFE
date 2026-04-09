@@ -8,12 +8,18 @@ export default function AddProductModal() {
     showAddModal,
     setShowAddModal,
     createNewProduct,
+    updateExistingProduct,
     isLoading,
     categories,
     fetchCategories,
+    selectedProduct,
+    setSelectedProduct,
   } = useProducts();
 
-  const [productModal, setProductModal] = useState<Partial<Product>>({
+  // Determine if we're in edit mode
+  const isEditMode = showAddModal && selectedProduct !== null;
+
+  const emptyProduct: Partial<Product> = {
     name: "",
     description: "",
     price: 0,
@@ -23,9 +29,39 @@ export default function AddProductModal() {
     category: "",
     rating: 0,
     status: "available",
-  });
+  };
+
+  const [productModal, setProductModal] =
+    useState<Partial<Product>>(emptyProduct);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (showAddModal && selectedProduct) {
+      setProductModal({
+        name: selectedProduct.name || "",
+        description: selectedProduct.description || "",
+        price: selectedProduct.price || 0,
+        inStock: selectedProduct.inStock || 0,
+        isFeatured: selectedProduct.isFeatured || false,
+        isActive: selectedProduct.isActive ?? true,
+        category: selectedProduct.category || "",
+        rating: selectedProduct.rating || 0,
+        status: selectedProduct.status || "available",
+      });
+      // Show current image as preview
+      const currentImage =
+        typeof selectedProduct.image === "string"
+          ? selectedProduct.image
+          : selectedProduct.image?.src || null;
+      setImagePreview(currentImage);
+      setImageFile(null);
+    } else if (showAddModal) {
+      setProductModal(emptyProduct);
+      setImagePreview(null);
+      setImageFile(null);
+    }
+  }, [showAddModal, selectedProduct]);
 
   // Fetch categories when modal opens
   useEffect(() => {
@@ -39,6 +75,14 @@ export default function AddProductModal() {
     value: string | number | boolean,
   ) => {
     setProductModal({ ...productModal, [field]: value });
+  };
+
+  const handleClose = () => {
+    setProductModal(emptyProduct);
+    setImageFile(null);
+    setImagePreview(null);
+    setSelectedProduct(null);
+    setShowAddModal(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -67,30 +111,26 @@ export default function AddProductModal() {
         formData.append("main_image", imageFile);
       }
 
-      // Call the create function from context
-      await createNewProduct(formData);
+      if (isEditMode && selectedProduct) {
+        // Update existing product
+        await updateExistingProduct(selectedProduct.id, formData);
+      } else {
+        // Create new product
+        await createNewProduct(formData);
+      }
 
       // Reset form and close modal
-      setProductModal({
-        name: "",
-        description: "",
-        price: 0,
-        inStock: 0,
-        isFeatured: false,
-        isActive: true,
-        category: "",
-        rating: 0,
-        status: "available",
-      });
-      setImageFile(null);
-      setImagePreview(null);
-      setShowAddModal(false);
-
-      // Success notification
+      handleClose();
     } catch (error) {
-      console.error("Error creating product:", error);
-      // You could add an error notification here
-      alert("Error creating product. Please try again.");
+      console.error(
+        isEditMode ? "Error updating product:" : "Error creating product:",
+        error,
+      );
+      alert(
+        isEditMode
+          ? "Error updating product. Please try again."
+          : "Error creating product. Please try again.",
+      );
     }
   };
 
@@ -114,14 +154,16 @@ export default function AddProductModal() {
         <div className="flex items-center justify-between p-6 pb-4">
           <div>
             <h2 className="text-2xl font-bold text-cafe dark:text-blanco font-display">
-              Create New Product
+              {isEditMode ? "Edit Product" : "Create New Product"}
             </h2>
             <p className="text-cafe/60 dark:text-madera/60 text-sm">
-              Add a new product to your inventory
+              {isEditMode
+                ? "Update the product details below"
+                : "Add a new product to your inventory"}
             </p>
           </div>
           <button
-            onClick={() => setShowAddModal(false)}
+            onClick={handleClose}
             className="p-2 rounded-full bg-cafe/10 dark:bg-verde/10 text-cafe dark:text-blanco hover:bg-cafe/20 dark:hover:bg-verde/20 transition-colors duration-200"
           >
             <svg
@@ -337,7 +379,7 @@ export default function AddProductModal() {
             <div className="flex gap-4 pt-4">
               <button
                 type="button"
-                onClick={() => setShowAddModal(false)}
+                onClick={handleClose}
                 disabled={isLoading}
                 className="flex-1 px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
@@ -350,13 +392,19 @@ export default function AddProductModal() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="flex-1 px-6 py-3 rounded-xl font-semibold hover:scale-105 active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 bg-blue-600 dark:bg-green-600 text-white"
+                className={`flex-1 px-6 py-3 rounded-xl font-semibold hover:scale-105 active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 text-white ${
+                  isEditMode
+                    ? "bg-amber-600 dark:bg-amber-500"
+                    : "bg-blue-600 dark:bg-green-600"
+                }`}
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center gap-2">
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Creating...
+                    {isEditMode ? "Updating..." : "Creating..."}
                   </div>
+                ) : isEditMode ? (
+                  "Update Product"
                 ) : (
                   "Create Product"
                 )}

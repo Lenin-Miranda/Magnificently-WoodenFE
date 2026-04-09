@@ -5,7 +5,6 @@ import Footer from "../components/Footer/Footer";
 import CartModal from "../components/cartModal/CartModal";
 import SearchBar from "../components/searchBar/SearchBar";
 import AOS from "aos";
-import { image } from "framer-motion/client";
 import { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useProducts } from "../context/ProductContext";
@@ -17,6 +16,11 @@ export default function ProductsPage() {
   const { products, fetchProducts } = useProducts();
 
   useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: "ease",
+    });
     fetchProducts();
   }, []);
 
@@ -61,7 +65,7 @@ export default function ProductsPage() {
                   key={product.id}
                   data-aos="fade-up"
                   data-aos-delay={index * 100}
-                  className="group bg-white/80 dark:bg-cafe/80 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-madera/20 dark:border-verde/20 cursor-pointer"
+                  className="group bg-white/80 dark:bg-cafe/80 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-madera/20 dark:border-verde/20 cursor-pointer"
                   onClick={() => router.push(`/product/${product.id}`)}
                 >
                   <div className="relative aspect-square bg-gradient-to-br from-madera/20 to-madera/5 dark:from-verde/20 dark:to-verde/5 flex items-center justify-center overflow-hidden">
