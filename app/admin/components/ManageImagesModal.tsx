@@ -93,9 +93,9 @@ export default function ManageImagesModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 20 }}
             transition={{ type: "spring", stiffness: 340, damping: 30 }}
-            className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none px-4 py-6"
+            className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6"
           >
-            <div className="pointer-events-auto w-full max-w-2xl bg-blanco dark:bg-cafe rounded-2xl shadow-2xl border border-madera/20 dark:border-verde/20 overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="w-full max-w-2xl bg-blanco dark:bg-cafe rounded-2xl shadow-2xl border border-madera/20 dark:border-verde/20 overflow-hidden flex flex-col max-h-[90vh]">
               {/* Header */}
               <div className="flex items-start justify-between p-6 pb-4 border-b border-madera/10 dark:border-verde/10 shrink-0">
                 <div>
