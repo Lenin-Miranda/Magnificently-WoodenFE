@@ -3,64 +3,70 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { CartContextType } from "../interfaces/cartModal";
 import {
+  getCart,
   addToCart,
   removeFromCart,
   clearCart,
   updateCartItem,
 } from "../lib/cartApi";
 import { Product } from "../interfaces/products";
+import { Cart } from "../interfaces/cartModal";
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isCartItems, setIsCartItems] = useState<Product[]>([]);
+  const [isCartItems, setIsCartItems] = useState<Cart | null>(null);
 
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
   const toggleCart = () => setIsCartOpen((prev) => !prev);
 
-  const addToCart = (products: Product[]) => {
-    setIsCartItems((prev) => {
-      const updatedCart = [...prev];
-
-      products.forEach((product) => {
-        const existingItem = updatedCart.find((item) => item.id === product.id);
-
-        if (existingItem) {
-          existingItem.quantity =
-            (existingItem.quantity || 1) + (product.quantity || 1);
-        } else {
-          updatedCart.push({ ...product, quantity: product.quantity || 1 });
-        }
-      });
-
-      return updatedCart;
-    });
+  const fetchCart = async () => {
+    try {
+      const cartItems = await getCart();
+      setIsCartItems(cartItems);
+    } catch (error) {
+      console.error("Failed to fetch cart items:", error);
+    }
   };
 
-  const removeFromCart = (productId: number) => {
-    setIsCartItems((prev) => prev.filter((item) => item.id !== productId));
+  const handleAddToCart = async (productId: number, quantity: number) => {
+    try {
+      await addToCart(productId, quantity);
+      await fetchCart(); // Refresh cart items after adding
+    } catch (error) {
+      console.error("Failed to add to cart:", error);
+    }
   };
 
-  const updateQuantity = (productId: number, quantity: number) => {
-    setIsCartItems((prev) =>
-      prev.map((item) =>
-        item.id === productId
-          ? { ...item, quantity: Math.max(1, quantity) }
-          : item
-      )
-    );
+  const handleRemoveFromCart = async (productId: number) => {
+    try {
+      await removeFromCart(productId);
+      await fetchCart(); // Refresh cart items after removing
+    } catch (error) {
+      console.error("Failed to remove from cart:", error);
+    }
+  };
+
+  const updateQuantity = async (productId: number, quantity: number) => {
+    try {
+      await updateCartItem(productId, quantity);
+      await fetchCart(); // Refresh cart items after updating
+    } catch (e) {
+      console.error("Failed to update cart item:", e);
+    }
   };
 
   return (
     <CartContext.Provider
       value={{
         isCartOpen,
+        fetchCart,
         openCart,
         closeCart,
         toggleCart,
-        addToCart,
-        removeFromCart,
+        handleAddToCart,
+        handleRemoveFromCart,
         updateQuantity,
         isCartItems,
       }}

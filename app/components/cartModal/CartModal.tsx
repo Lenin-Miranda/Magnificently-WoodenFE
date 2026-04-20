@@ -4,17 +4,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 export default function CartModal() {
-  const { isCartOpen, closeCart, isCartItems, removeFromCart, updateQuantity } =
-    useCart();
+  const {
+    isCartOpen,
+    closeCart,
+    isCartItems,
+    handleRemoveFromCart,
+    updateQuantity,
+  } = useCart();
 
-  const totalPrice = isCartItems.reduce(
-    (sum, item) => sum + item.price * (item.quantity || 1),
-    0,
-  );
-  const totalItems = isCartItems.reduce(
-    (sum, item) => sum + (item.quantity || 1),
-    0,
-  );
+  const totalPrice = isCartItems?.total_price;
+
+  const totalItems = isCartItems?.total_items;
 
   return (
     <AnimatePresence>
@@ -64,7 +64,7 @@ export default function CartModal() {
 
             {/* Cart Items */}
             <div className="flex-1 overflow-y-auto p-6">
-              {isCartItems.length === 0 ? (
+              {isCartItems?.items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full">
                   <svg
                     className="w-24 h-24 text-cafe/30 dark:text-blanco/30 mb-4"
@@ -85,7 +85,7 @@ export default function CartModal() {
                 </div>
               ) : (
                 <ul className="space-y-4">
-                  {isCartItems.map((item, index) => (
+                  {isCartItems?.items.map((item, index) => (
                     <motion.li
                       key={`${item.id}-${index}`}
                       initial={{ opacity: 0, y: 20 }}
@@ -96,8 +96,8 @@ export default function CartModal() {
                       {/* Product Image */}
                       <div className="relative w-20 h-20 flex-shrink-0 rounded-md overflow-hidden bg-blanco dark:bg-cafe">
                         <Image
-                          src={item.image || "/placeholder.png"}
-                          alt={item.name}
+                          src={item.product.main_image || "/placeholder.png"}
+                          alt={item.product.name}
                           fill
                           className="object-cover"
                         />
@@ -106,17 +106,21 @@ export default function CartModal() {
                       {/* Product Info */}
                       <div className="flex-1 min-w-0">
                         <h3 className="font-semibold text-cafe dark:text-blanco truncate">
-                          {item.name}
+                          {item.product.name}
                         </h3>
                         <p className="text-sm text-cafe/60 dark:text-blanco/60 line-clamp-2 mt-1">
-                          {item.description}
+                          {item.product.description}
                         </p>
                         <div className="flex items-center justify-between mt-2">
                           <span className="text-xs px-2 py-1 bg-azul/10 dark:bg-verde/10 text-azul dark:text-verde rounded-full">
-                            {item.category}
+                            {item.product.category.name}
                           </span>
                           <span className="text-lg font-bold text-azul dark:text-verde">
-                            ${(item.price * (item.quantity || 1)).toFixed(2)}
+                            $
+                            {(
+                              parseFloat(item.product.price) *
+                              (item.quantity || 1)
+                            ).toFixed(2)}
                           </span>
                         </div>
 
@@ -178,14 +182,14 @@ export default function CartModal() {
                             </button>
                           </div>
                           <span className="text-xs text-cafe/40 dark:text-blanco/40">
-                            ${item.price.toFixed(2)} each
+                            ${parseFloat(item.product.price).toFixed(2)} each
                           </span>
                         </div>
                       </div>
 
                       {/* Remove Button */}
                       <button
-                        onClick={() => removeFromCart(item.id)}
+                        onClick={() => handleRemoveFromCart(item.id)}
                         className="absolute top-2 right-2 p-1.5 bg-red-500/10 text-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-red-500/20"
                         aria-label="Remove item"
                       >
@@ -211,7 +215,7 @@ export default function CartModal() {
 
             {/* Footer */}
             <div className="p-6 border-t border-madera/20 space-y-4">
-              {isCartItems.length > 0 && (
+              {isCartItems?.items && isCartItems.items.length > 0 && (
                 <>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm text-cafe/70 dark:text-blanco/70">
@@ -219,7 +223,7 @@ export default function CartModal() {
                         Subtotal ({totalItems}{" "}
                         {totalItems === 1 ? "item" : "items"}):
                       </span>
-                      <span>${totalPrice.toFixed(2)}</span>
+                      <span>${(Number(totalPrice) ?? 0).toFixed(2)}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm text-cafe/70 dark:text-blanco/70">
                       <span>Shipping:</span>
@@ -231,16 +235,16 @@ export default function CartModal() {
                       Total:
                     </span>
                     <span className="text-2xl font-display font-bold text-azul dark:text-verde">
-                      ${totalPrice.toFixed(2)}
+                      ${(Number(totalPrice) ?? 0).toFixed(2)}
                     </span>
                   </div>
                 </>
               )}
               <button
-                disabled={isCartItems.length === 0}
+                disabled={isCartItems?.items?.length === 0}
                 className="w-full py-3 bg-azul dark:bg-verde text-blanco rounded-lg font-semibold hover:bg-azul/90 dark:hover:bg-verde/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-azul dark:disabled:hover:bg-verde"
               >
-                {isCartItems.length === 0
+                {isCartItems?.items?.length === 0
                   ? "Cart is Empty"
                   : "Proceed to Checkout"}
               </button>

@@ -13,7 +13,7 @@ import "aos/dist/aos.css";
 export default function ProductPage() {
   const params = useParams();
   const router = useRouter();
-  const { addToCart } = useCart();
+  const { handleAddToCart } = useCart();
   const { products, fetchProducts, isLoading } = useProducts();
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
@@ -83,9 +83,9 @@ export default function ProductPage() {
     );
   }
 
-  const handleAddToCart = () => {
+  const handleSubmit = () => {
     setIsAdding(true);
-    addToCart([{ ...product, quantity }]);
+    handleAddToCart(product.id, quantity);
     setTimeout(() => {
       setIsAdding(false);
     }, 1000);
@@ -337,7 +337,7 @@ export default function ProductPage() {
 
                 {/* Add to Cart Button */}
                 <button
-                  onClick={handleAddToCart}
+                  onClick={handleSubmit}
                   disabled={product.inStock === 0 || isAdding}
                   className={`group/btn relative w-full bg-gradient-to-r from-azul to-azul/90 dark:from-verde dark:to-verde/90 text-white px-8 py-4 rounded-full font-bold text-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:hover:scale-100 ${
                     isAdding ? "animate-pulse scale-105 shadow-2xl" : ""

@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 
 export default function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState("");
-  const { addToCart } = useCart();
+  const { handleAddToCart, fetchCart } = useCart();
   const { products, fetchProducts } = useProducts();
 
   useEffect(() => {
@@ -121,7 +121,7 @@ export default function ProductsPage() {
                         onClick={(e) => {
                           e.stopPropagation();
                           setAddingProductId(product.id);
-                          addToCart([product]);
+                          handleAddToCart(product.id, 1);
                           setTimeout(() => {
                             setAddingProductId(null);
                           }, 1000);

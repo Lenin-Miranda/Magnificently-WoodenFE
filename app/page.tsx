@@ -11,11 +11,13 @@ import CartModal from "./components/cartModal/CartModal";
 import { useEffect } from "react";
 import { About } from "./components/About/About";
 import { useProducts } from "./context/ProductContext";
+import { useCart } from "./context/CartContext";
 import woodenPlane from "../public/pngtree-wooden-toy-airplane-png-image_13246257-removebg-preview.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 export default function Home() {
+  const { fetchCart } = useCart();
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -23,6 +25,11 @@ export default function Home() {
       easing: "ease",
     });
   }, []);
+
+  useEffect(() => {
+    fetchCart();
+  }, []);
+
   const { products, fetchProducts } = useProducts();
 
   useEffect(() => {

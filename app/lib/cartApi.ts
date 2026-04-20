@@ -6,32 +6,33 @@ export const getCart = async () => {
   return res.data;
 };
 
+// Agregar item al carrito
 export const addToCart = async (productId: number, quantity: number) => {
   const res = await api.post(
-    "/cart/add/",
+    "/cart/items/",
     {
-      productId,
+      productId, // Django suele esperar 'product' como clave
       quantity,
     },
-    { withCredentials: true }
+    { withCredentials: true },
   );
   return res.data;
 };
 
-export const removeFromCart = async (productId: number) => {
-  const res = await api.post(
-    "/cart/remove/",
-    { productId },
-    { withCredentials: true }
-  );
+// Eliminar item del carrito (DELETE)
+export const removeFromCart = async (itemId: number) => {
+  const res = await api.delete(`/cart/items/${itemId}/`, {
+    withCredentials: true,
+  });
   return res.data;
 };
 
-export const updateCartItem = async (productId: number, quantity: number) => {
-  const res = await api.post(
-    "/cart/update/",
-    { productId, quantity },
-    { withCredentials: true }
+// Actualizar cantidad de item (PATCH)
+export const updateCartItem = async (itemId: number, quantity: number) => {
+  const res = await api.patch(
+    `/cart/items/${itemId}/`,
+    { quantity },
+    { withCredentials: true },
   );
   return res.data;
 };
