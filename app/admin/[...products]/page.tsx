@@ -80,7 +80,7 @@ export default function AdminProductsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-blanco dark:bg-cafe">
+    <div className="min-h-screen bg-blanco dark:bg-cafe lg:pl-80">
       <AdminNavBar />
       <AddProductModal />
       {productToDelete !== null && <DeleteProductModal id={productToDelete} />}
@@ -88,49 +88,50 @@ export default function AdminProductsPage() {
         isOpen={showManageImages}
         setIsOpen={setShowManageImages}
       />
-      <main className="max-w-7xl mx-auto px-4 py-12">
-        {/* Header */}
-        <div
-          data-aos="fade-down"
-          className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
-        >
-          <div>
-            <h1 className="text-4xl font-display font-bold text-cafe dark:text-madera mb-2">
-              Gestión de Productos
-            </h1>
-            <p className="text-cafe/60 dark:text-blanco/60">
-              Administra tu catálogo de productos
-            </p>
-          </div>
-          <button
-            onClick={() => {
-              setSelectedProduct(null);
-              setShowAddModal(true);
-            }}
-            className="flex items-center cursor-pointer gap-2 px-6 py-3 bg-azul dark:bg-verde text-blanco rounded-xl hover:bg-azul/90 dark:hover:bg-verde/90 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
+      <main className="px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+        <div className="mx-auto max-w-7xl">
+          {/* Header */}
+          <div
+            data-aos="fade-down"
+            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
           >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+            <div>
+              <h1 className="text-4xl font-display font-bold text-cafe dark:text-madera mb-2">
+                Gestión de Productos
+              </h1>
+              <p className="text-cafe/60 dark:text-blanco/60">
+                Administra tu catálogo de productos
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                setSelectedProduct(null);
+                setShowAddModal(true);
+              }}
+              className="flex items-center cursor-pointer gap-2 px-6 py-3 bg-azul dark:bg-verde text-blanco rounded-xl hover:bg-azul/90 dark:hover:bg-verde/90 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-            Agregar Producto
-          </button>
-        </div>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              Agregar Producto
+            </button>
+          </div>
 
-        {/* Stats Cards */}
-        <div
-          data-aos="fade-up"
-          className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8"
-        >
+          {/* Stats Cards */}
+          <div
+            data-aos="fade-up"
+            className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8"
+          >
           <div className="bg-blanco dark:bg-cafe/80 rounded-xl p-6 border border-madera/20 dark:border-verde/20 shadow-md">
             <div className="flex items-center justify-between">
               <div>
@@ -473,6 +474,7 @@ export default function AdminProductsPage() {
               </p>
             </div>
           )}
+        </div>
         </div>
       </main>
     </div>

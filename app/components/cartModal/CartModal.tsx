@@ -43,7 +43,7 @@ export default function CartModal() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed right-0 top-0 z-50 h-[100dvh] w-full max-w-full overflow-y-auto overscroll-contain bg-blanco shadow-2xl sm:w-[28rem] dark:bg-cafe"
+            className="fixed right-0 top-0 z-50 h-[100dvh] w-full max-w-full overflow-y-auto overscroll-contain bg-blanco shadow-2xl sm:w-[32rem] dark:bg-cafe"
           >
             <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-br from-madera/25 via-blanco to-azul/10 dark:from-verde/20 dark:via-cafe dark:to-azul/10" />
 
@@ -127,7 +127,7 @@ export default function CartModal() {
               ) : (
                 <>
                   {!hasItems ? (
-                    <div className="flex min-h-56 flex-col items-center justify-center rounded-[2rem] border border-dashed border-madera/20 bg-white/80 px-8 text-center shadow-inner dark:border-verde/15 dark:bg-blanco/5 sm:min-h-72">
+                    <div className="flex min-h-56 flex-col items-center justify-center rounded-[2rem] border border-dashed border-madera/20 bg-white/80 p-8 text-center shadow-inner dark:border-verde/15 dark:bg-blanco/5 sm:min-h-72">
                       <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-madera/25 to-azul/15 text-cafe shadow-lg dark:from-verde/20 dark:to-azul/10 dark:text-blanco">
                         <svg
                           className="h-10 w-10"
