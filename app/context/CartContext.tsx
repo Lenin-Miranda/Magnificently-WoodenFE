@@ -9,24 +9,39 @@ import {
   clearCart,
   updateCartItem,
 } from "../lib/cartApi";
-import { Product } from "../interfaces/products";
 import { Cart } from "../interfaces/cartModal";
+
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCartLoading, setIsCartLoading] = useState(false);
   const [isCartItems, setIsCartItems] = useState<Cart | null>(null);
 
-  const openCart = () => setIsCartOpen(true);
+  const openCart = () => {
+    setIsCartOpen(true);
+    void fetchCart();
+  };
+
   const closeCart = () => setIsCartOpen(false);
-  const toggleCart = () => setIsCartOpen((prev) => !prev);
+  const toggleCart = () => {
+    if (!isCartOpen) {
+      void fetchCart();
+    }
+
+    setIsCartOpen((prev) => !prev);
+  };
 
   const fetchCart = async () => {
+    setIsCartLoading(true);
+
     try {
       const cartItems = await getCart();
       setIsCartItems(cartItems);
     } catch (error) {
       console.error("Failed to fetch cart items:", error);
+    } finally {
+      setIsCartLoading(false);
     }
   };
 
@@ -57,10 +72,20 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const handleClearCart = async () => {
+    try {
+      await clearCart();
+      await fetchCart();
+    } catch (error) {
+      console.error("Failed to clear cart:", error);
+    }
+  };
+
   return (
     <CartContext.Provider
       value={{
         isCartOpen,
+        isCartLoading,
         fetchCart,
         openCart,
         closeCart,
@@ -68,6 +93,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         handleAddToCart,
         handleRemoveFromCart,
         updateQuantity,
+        handleClearCart,
         isCartItems,
       }}
     >

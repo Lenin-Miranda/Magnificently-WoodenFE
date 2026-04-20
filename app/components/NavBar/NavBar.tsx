@@ -11,6 +11,7 @@ export default function NavBar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { toggleCart, isCartItems } = useCart();
   const { user, logout } = useLogin();
+  const cartCount = isCartItems?.total_items ?? 0;
 
   return (
     <>
@@ -53,7 +54,7 @@ export default function NavBar() {
 
           <button
             onClick={toggleCart}
-            className="relative text-cafe dark:text-blanco hover:text-azul dark:hover:text-verde transition-all duration-300 ease-in-out hover:scale-110"
+            className="relative flex h-11 w-11 items-center justify-center rounded-full border border-madera/25 bg-white/80 text-cafe shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-azul/40 hover:text-azul hover:shadow-lg dark:border-verde/20 dark:bg-cafe/80 dark:text-blanco dark:hover:border-verde/40 dark:hover:text-verde"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -69,8 +70,8 @@ export default function NavBar() {
                 d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
               />
             </svg>
-            <span className="absolute -top-1 -right-1 bg-azul dark:bg-verde text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-              3
+            <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-azul px-1.5 text-[11px] font-bold text-white shadow-md dark:bg-verde">
+              {cartCount}
             </span>
           </button>
         </div>
@@ -207,7 +208,7 @@ export default function NavBar() {
 
           <button
             onClick={toggleCart}
-            className="relative border-l border-madera/40 p-4 text-cafe dark:text-blanco hover:text-azul dark:hover:text-verde transition-all duration-300 ease-in-out hover:scale-110"
+            className="relative ml-2 flex h-12 w-12 items-center justify-center rounded-full border border-madera/25 bg-white/80 text-cafe shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-azul/40 hover:text-azul hover:shadow-lg dark:border-verde/20 dark:bg-cafe/80 dark:text-blanco dark:hover:border-verde/40 dark:hover:text-verde"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -223,8 +224,8 @@ export default function NavBar() {
                 d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
               />
             </svg>
-            <span className="absolute -top-1 -right-1 bg-azul dark:bg-verde text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-              {isCartItems?.total_items ?? 0}
+            <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-azul px-1.5 text-[11px] font-bold text-white shadow-md dark:bg-verde">
+              {cartCount}
             </span>
           </button>
         </div>
@@ -240,7 +241,7 @@ export default function NavBar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsMenuOpen(false)}
-              className="md:hidden fixed inset-0 bg-cafe/80 dark:bg-azul/80 backdrop-blur-sm z-40"
+              className="md:hidden fixed inset-0 bg-cafe/80 dark:bg-azul/80 z-40"
             />
 
             {/* Menu */}

@@ -1,5 +1,3 @@
-import { Product } from "./products";
-
 export interface CartProduct {
   id: number;
   name: string;
@@ -47,6 +45,7 @@ export interface Cart {
 
 export interface CartContextType {
   isCartOpen: boolean;
+  isCartLoading: boolean;
   openCart: () => void;
   closeCart: () => void;
   toggleCart: () => void;
@@ -54,5 +53,6 @@ export interface CartContextType {
   handleAddToCart: (productId: number, quantity: number) => void;
   handleRemoveFromCart: (productId: number) => void;
   updateQuantity: (productId: number, quantity: number) => void;
+  handleClearCart: () => void;
   isCartItems: Cart | null;
 }
