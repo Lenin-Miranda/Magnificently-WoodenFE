@@ -34,13 +34,3 @@ export async function logoutRequest() {
   const response = await api.post("/users/logout/");
   return response.data;
 }
-
-export async function updateUserRequest(userData: {
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  username?: string;
-}) {
-  const response = await api.patch("/users/me/", userData);
-  return response.data;
-}

@@ -99,7 +99,7 @@ export default function CartModal() {
                     <p className="text-[11px] uppercase tracking-[0.2em] text-white/75">
                       Shipping
                     </p>
-                    <p className="text-lg font-bold">Free</p>
+                    <p className="text-lg text-center font-bold">Free</p>
                   </div>
                 </div>
 
@@ -114,97 +114,114 @@ export default function CartModal() {
 
             {/* Cart Items */}
             <div className="relative min-h-0 bg-gradient-to-b from-transparent via-madera/5 to-madera/10 px-4 py-4 dark:via-blanco/[0.02] dark:to-blanco/[0.03] sm:px-6 sm:py-5">
-              {isCartLoading ? (
-                <div className="flex min-h-56 flex-col items-center justify-center rounded-[2rem] border border-dashed border-madera/20 bg-white/70 px-6 text-center shadow-inner dark:border-verde/15 dark:bg-blanco/5 sm:min-h-72">
-                  <div className="h-12 w-12 animate-spin rounded-full border-4 border-azul/20 border-t-azul dark:border-verde/20 dark:border-t-verde" />
-                  <p className="mt-5 text-lg font-semibold text-cafe dark:text-blanco">
-                    Updating your cart
-                  </p>
-                  <p className="mt-2 max-w-xs text-sm leading-relaxed text-cafe/60 dark:text-blanco/60">
-                    We are refreshing quantities, prices, and handcrafted picks.
-                  </p>
-                </div>
-              ) : (
-                <>
-                  {!hasItems ? (
-                    <div className="flex min-h-56 flex-col items-center justify-center rounded-[2rem] border border-dashed border-madera/20 bg-white/80 p-8 text-center shadow-inner dark:border-verde/15 dark:bg-blanco/5 sm:min-h-72">
-                      <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-madera/25 to-azul/15 text-cafe shadow-lg dark:from-verde/20 dark:to-azul/10 dark:text-blanco">
-                        <svg
-                          className="h-10 w-10"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.6}
-                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                          />
-                        </svg>
-                      </div>
-                      <h3 className="mt-6 text-2xl font-display font-bold text-cafe dark:text-blanco">
-                        Your cart is waiting
-                      </h3>
-                      <p className="mt-3 max-w-sm text-sm leading-relaxed text-cafe/60 dark:text-blanco/60">
-                        Add a few handcrafted pieces and this space will turn
-                        into your personal collection board.
-                      </p>
-                      <Link
-                        href="/products"
-                        onClick={closeCart}
-                        className="mt-6 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-azul to-azul/85 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl dark:from-verde dark:to-verde/85"
+              <>
+                {!hasItems ? (
+                  <div className="flex min-h-56 flex-col items-center justify-center rounded-[2rem] border border-dashed border-madera/20 bg-white/80 p-8 text-center shadow-inner dark:border-verde/15 dark:bg-blanco/5 sm:min-h-72">
+                    <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-madera/25 to-azul/15 text-cafe shadow-lg dark:from-verde/20 dark:to-azul/10 dark:text-blanco">
+                      <svg
+                        className="h-10 w-10"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
                       >
-                        Explore products
-                      </Link>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.6}
+                          d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                        />
+                      </svg>
                     </div>
-                  ) : (
-                    <ul className="space-y-4">
-                      {cartItems.map((item, index) => {
-                        const itemQuantity = item.quantity || 1;
-                        const itemUnitPrice = Number(item.product.price ?? 0);
-                        const itemSubtotal = itemUnitPrice * itemQuantity;
+                    <h3 className="mt-6 text-2xl font-display font-bold text-cafe dark:text-blanco">
+                      Your cart is waiting
+                    </h3>
+                    <p className="mt-3 max-w-sm text-sm leading-relaxed text-cafe/60 dark:text-blanco/60">
+                      Add a few handcrafted pieces and this space will turn into
+                      your personal collection board.
+                    </p>
+                    <Link
+                      href="/products"
+                      onClick={closeCart}
+                      className="mt-6 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-azul to-azul/85 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl dark:from-verde dark:to-verde/85"
+                    >
+                      Explore products
+                    </Link>
+                  </div>
+                ) : (
+                  <ul className="space-y-4">
+                    {cartItems.map((item, index) => {
+                      const itemQuantity = item.quantity || 1;
+                      const itemUnitPrice = Number(item.product.price ?? 0);
+                      const itemSubtotal = itemUnitPrice * itemQuantity;
 
-                        return (
-                          <motion.li
-                            key={`${item.id}-${index}`}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, x: 100 }}
-                            className="overflow-hidden rounded-[1.75rem] border border-madera/15 bg-white/85 shadow-lg shadow-cafe/5 transition-all duration-300 dark:border-verde/15 dark:bg-blanco/[0.04] dark:shadow-black/10"
-                          >
-                            <div className="flex gap-4 p-4 sm:p-5">
-                              <div className="relative h-28 w-24 flex-shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-madera/20 to-madera/5 dark:from-verde/20 dark:to-verde/5 sm:h-32 sm:w-28">
-                                <img
-                                  src={getCartItemImage(
-                                    item.product.main_image,
-                                    item.product.images?.[0]?.image,
-                                  )}
-                                  alt={item.product.name}
-                                  className="h-full w-full object-cover"
-                                />
+                      return (
+                        <motion.li
+                          key={`${item.id}-${index}`}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, x: 100 }}
+                          className="overflow-hidden rounded-[1.75rem] border border-madera/15 bg-white/85 shadow-lg shadow-cafe/5 transition-all duration-300 dark:border-verde/15 dark:bg-blanco/[0.04] dark:shadow-black/10"
+                        >
+                          <div className="flex gap-4 p-4 sm:p-5">
+                            <div className="relative h-28 w-24 flex-shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-madera/20 to-madera/5 dark:from-verde/20 dark:to-verde/5 sm:h-32 sm:w-28">
+                              <img
+                                src={getCartItemImage(
+                                  item.product.main_image,
+                                  item.product.images?.[0]?.image,
+                                )}
+                                alt={item.product.name}
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-start justify-between gap-3">
+                                <div className="min-w-0">
+                                  <span className="inline-flex rounded-full bg-azul/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-azul dark:bg-verde/10 dark:text-verde">
+                                    {item.product.category.name}
+                                  </span>
+                                  <h3 className="mt-3 truncate text-lg font-display font-bold text-cafe dark:text-blanco">
+                                    {item.product.name}
+                                  </h3>
+                                </div>
+
+                                <button
+                                  onClick={() => handleRemoveFromCart(item.id)}
+                                  className="flex items-center gap-1 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold text-red-600 transition-colors duration-300 hover:bg-red-500/20 dark:text-red-300"
+                                  aria-label={`Remove ${item.product.name}`}
+                                >
+                                  <svg
+                                    className="h-3.5 w-3.5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                    />
+                                  </svg>
+                                  Remove
+                                </button>
                               </div>
 
-                              <div className="min-w-0 flex-1">
-                                <div className="flex items-start justify-between gap-3">
-                                  <div className="min-w-0">
-                                    <span className="inline-flex rounded-full bg-azul/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-azul dark:bg-verde/10 dark:text-verde">
-                                      {item.product.category.name}
-                                    </span>
-                                    <h3 className="mt-3 truncate text-lg font-display font-bold text-cafe dark:text-blanco">
-                                      {item.product.name}
-                                    </h3>
-                                  </div>
+                              <p className="mt-2 line-clamp-2 font-bold text-sm leading-relaxed text-cafe/60 dark:text-blanco/60">
+                                {item.product.description}
+                              </p>
 
+                              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-3">
+                                <div className="flex items-center rounded-full border border-madera/15 bg-madera/10 p-1 dark:border-verde/15 dark:bg-blanco/5">
                                   <button
                                     onClick={() =>
-                                      handleRemoveFromCart(item.id)
+                                      updateQuantity(item.id, itemQuantity - 1)
                                     }
-                                    className="flex items-center gap-1 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold text-red-600 transition-colors duration-300 hover:bg-red-500/20 dark:text-red-300"
-                                    aria-label={`Remove ${item.product.name}`}
+                                    disabled={itemQuantity <= 1}
+                                    className="flex h-9 w-9 items-center justify-center rounded-full text-cafe transition-colors hover:bg-white hover:text-azul disabled:cursor-not-allowed disabled:opacity-35 dark:text-blanco dark:hover:bg-cafe dark:hover:text-verde"
                                   >
                                     <svg
-                                      className="h-3.5 w-3.5"
+                                      className="h-4 w-4"
                                       fill="none"
                                       stroke="currentColor"
                                       viewBox="0 0 24 24"
@@ -213,101 +230,64 @@ export default function CartModal() {
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={2}
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                        d="M20 12H4"
                                       />
                                     </svg>
-                                    Remove
+                                  </button>
+
+                                  <span className="w-10 text-center text-sm font-bold text-cafe dark:text-blanco">
+                                    {itemQuantity}
+                                  </span>
+
+                                  <button
+                                    onClick={() =>
+                                      updateQuantity(item.id, itemQuantity + 1)
+                                    }
+                                    className="flex h-9 w-9 items-center justify-center rounded-full text-cafe transition-colors hover:bg-white hover:text-azul dark:text-blanco dark:hover:bg-cafe dark:hover:text-verde"
+                                  >
+                                    <svg
+                                      className="h-4 w-4"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M12 4v16m8-8H4"
+                                      />
+                                    </svg>
                                   </button>
                                 </div>
 
-                                <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-cafe/60 dark:text-blanco/60">
-                                  {item.product.description}
-                                </p>
-
-                                <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-3">
-                                  <div className="flex items-center rounded-full border border-madera/15 bg-madera/10 p-1 dark:border-verde/15 dark:bg-blanco/5">
-                                    <button
-                                      onClick={() =>
-                                        updateQuantity(
-                                          item.id,
-                                          itemQuantity - 1,
-                                        )
-                                      }
-                                      disabled={itemQuantity <= 1}
-                                      className="flex h-9 w-9 items-center justify-center rounded-full text-cafe transition-colors hover:bg-white hover:text-azul disabled:cursor-not-allowed disabled:opacity-35 dark:text-blanco dark:hover:bg-cafe dark:hover:text-verde"
-                                    >
-                                      <svg
-                                        className="h-4 w-4"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                      >
-                                        <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          strokeWidth={2}
-                                          d="M20 12H4"
-                                        />
-                                      </svg>
-                                    </button>
-
-                                    <span className="w-10 text-center text-sm font-bold text-cafe dark:text-blanco">
-                                      {itemQuantity}
-                                    </span>
-
-                                    <button
-                                      onClick={() =>
-                                        updateQuantity(
-                                          item.id,
-                                          itemQuantity + 1,
-                                        )
-                                      }
-                                      className="flex h-9 w-9 items-center justify-center rounded-full text-cafe transition-colors hover:bg-white hover:text-azul dark:text-blanco dark:hover:bg-cafe dark:hover:text-verde"
-                                    >
-                                      <svg
-                                        className="h-4 w-4"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                      >
-                                        <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          strokeWidth={2}
-                                          d="M12 4v16m8-8H4"
-                                        />
-                                      </svg>
-                                    </button>
-                                  </div>
-
-                                  <div className="text-sm text-cafe/55 dark:text-blanco/55">
-                                    {formatCurrency(itemUnitPrice)} each
-                                  </div>
+                                <div className="text-sm font-bold text-center text-cafe/55 dark:text-blanco/55">
+                                  {formatCurrency(itemUnitPrice)} each
                                 </div>
+                              </div>
 
-                                <div className="mt-4 flex items-end justify-between gap-4 border-t border-madera/10 pt-4 dark:border-verde/10">
-                                  <div>
-                                    <p className="text-xs uppercase tracking-[0.18em] text-cafe/45 dark:text-blanco/45">
-                                      Item total
-                                    </p>
-                                    <p className="mt-1 text-xl font-display font-bold text-azul dark:text-verde">
-                                      {formatCurrency(itemSubtotal)}
-                                    </p>
-                                  </div>
-                                  <div className="text-right text-xs text-cafe/45 dark:text-blanco/45">
-                                    {itemQuantity} x{" "}
-                                    {formatCurrency(itemUnitPrice)}
-                                  </div>
+                              <div className="mt-4 flex items-end justify-between gap-4 border-t border-madera/10 pt-4 dark:border-verde/10">
+                                <div>
+                                  <p className="text-xs uppercase tracking-[0.18em] text-cafe/45 dark:text-blanco/45">
+                                    Item total
+                                  </p>
+                                  <p className="mt-1 text-xl font-display font-bold text-azul dark:text-verde">
+                                    {formatCurrency(itemSubtotal)}
+                                  </p>
+                                </div>
+                                <div className="text-right text-xs text-cafe/45 dark:text-blanco/45">
+                                  {itemQuantity} x{" "}
+                                  {formatCurrency(itemUnitPrice)}
                                 </div>
                               </div>
                             </div>
-                          </motion.li>
-                        );
-                      })}
-                    </ul>
-                  )}
-                </>
-              )}
+                          </div>
+                        </motion.li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </>
             </div>
 
             {/* Footer */}

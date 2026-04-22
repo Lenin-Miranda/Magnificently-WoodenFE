@@ -6,7 +6,6 @@ import Footer from "../components/Footer/Footer";
 import CartModal from "../components/cartModal/CartModal";
 import { useLogin } from "../context/LoginContext";
 import { ProfileProvider, useProfile } from "../context/ProfileContext";
-import { updateUserRequest } from "../lib/authApi";
 import { useErrorModal } from "../components/ErrorModal/ErrorModal";
 
 function SettingsContent() {
@@ -47,15 +46,17 @@ function SettingsContent() {
       setEmail(user.email ?? "");
       setUsername(user.username ?? "");
     }
+    // `fetchUserProfile` is context-provided and intentionally runs when auth state resolves.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   // Initialize form fields from profile
   useEffect(() => {
     if (userProfile) {
       setBio(userProfile.bio ?? "");
-      setPhoneNumber(userProfile.phoneNumber ?? "");
+      setPhoneNumber(userProfile.phone_number ?? "");
       setLocation(userProfile.location ?? "");
-      setProfilePicture(userProfile.profilePicture ?? "");
+      setProfilePicture(userProfile.profile_picture ?? "");
     }
   }, [userProfile]);
 
@@ -64,17 +65,19 @@ function SettingsContent() {
     setSaving(true);
     setMessage(null);
     try {
-      // Update user data
-      await updateUserRequest({
+      await updateUserProfile({
         first_name: firstName,
         last_name: lastName,
         email,
         username,
+        bio,
+        phone_number: phoneNumber,
+        location,
+        profile_picture: profilePicture,
       });
-      // Update profile data
-      await updateUserProfile({ bio, phoneNumber, location, profilePicture });
-      // Refresh user data in context
+
       if (refreshUser) await refreshUser();
+      await fetchUserProfile();
       setMessage("Profile updated successfully.");
     } catch (e: unknown) {
       console.error(e);
