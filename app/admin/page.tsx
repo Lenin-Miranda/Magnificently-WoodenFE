@@ -42,8 +42,7 @@ function getOrderStatusMeta(status: string) {
   if (normalizedStatus === "delivered") {
     return {
       label: "Delivered",
-      badge:
-        "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+      badge: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
       accent: "bg-blue-500",
     };
   }
@@ -122,7 +121,10 @@ export default function AdminPage() {
     (a, b) => b.orderDate.getTime() - a.orderDate.getTime(),
   );
   const visibleOrders = sortedOrders.slice(0, index);
-  const totalRevenue = orders.reduce((sum, order) => sum + order.totalAmount, 0);
+  const totalRevenue = orders.reduce(
+    (sum, order) => sum + order.totalAmount,
+    0,
+  );
   const uniqueCustomers = new Set(orders.map((order) => order.userId)).size;
   const pendingOrders = orders.filter((order) => {
     const status = order.status.toLowerCase();
@@ -131,8 +133,12 @@ export default function AdminPage() {
   const lowStockProducts = products
     .filter((product) => product.inStock <= 10)
     .sort((a, b) => a.inStock - b.inStock);
-  const outOfStockProducts = products.filter((product) => product.inStock === 0);
-  const activeProducts = products.filter((product) => product.inStock > 0).length;
+  const outOfStockProducts = products.filter(
+    (product) => product.inStock === 0,
+  );
+  const activeProducts = products.filter(
+    (product) => product.inStock > 0,
+  ).length;
   const inventoryHealth = products.length
     ? Math.round((activeProducts / products.length) * 100)
     : 0;
@@ -156,15 +162,17 @@ export default function AdminPage() {
     {
       key: "delivered",
       label: "Delivered",
-      count: orders.filter((order) => order.status.toLowerCase() === "delivered")
-        .length,
+      count: orders.filter(
+        (order) => order.status.toLowerCase() === "delivered",
+      ).length,
       color: "bg-blue-500",
     },
     {
       key: "cancelled",
       label: "Cancelled",
-      count: orders.filter((order) => order.status.toLowerCase() === "cancelled")
-        .length,
+      count: orders.filter(
+        (order) => order.status.toLowerCase() === "cancelled",
+      ).length,
       color: "bg-red-500",
     },
   ];
@@ -175,7 +183,12 @@ export default function AdminPage() {
       value: `$${totalRevenue.toFixed(2)}`,
       note: `${orders.length} recorded orders`,
       icon: (
-        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -184,15 +197,19 @@ export default function AdminPage() {
           />
         </svg>
       ),
-      tone:
-        "from-azul to-azul/85 text-white dark:from-verde dark:to-verde/85",
+      tone: "from-azul to-azul/85 text-white dark:from-verde dark:to-verde/85",
     },
     {
       label: "Products live",
       value: `${products.length}`,
       note: `${outOfStockProducts.length} currently out of stock`,
       icon: (
-        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -201,15 +218,19 @@ export default function AdminPage() {
           />
         </svg>
       ),
-      tone:
-        "from-madera/30 to-madera/10 text-cafe dark:from-verde/20 dark:to-verde/5 dark:text-blanco",
+      tone: "from-madera/30 to-madera/10 text-cafe dark:from-verde/20 dark:to-verde/5 dark:text-blanco",
     },
     {
       label: "Action needed",
       value: `${lowStockProducts.length}`,
       note: "Items with low inventory",
       icon: (
-        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -218,15 +239,19 @@ export default function AdminPage() {
           />
         </svg>
       ),
-      tone:
-        "from-orange-100 to-orange-50 text-orange-700 dark:from-orange-900/20 dark:to-orange-900/5 dark:text-orange-300",
+      tone: "from-orange-100 to-orange-50 text-orange-700 dark:from-orange-900/20 dark:to-orange-900/5 dark:text-orange-300",
     },
     {
       label: "Active customers",
       value: `${uniqueCustomers}`,
       note: `${pendingOrders} orders awaiting action`,
       icon: (
-        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -235,8 +260,7 @@ export default function AdminPage() {
           />
         </svg>
       ),
-      tone:
-        "from-white to-madera/10 text-cafe dark:from-cafe/80 dark:to-cafe dark:text-blanco",
+      tone: "from-white to-madera/10 text-cafe dark:from-cafe/80 dark:to-cafe dark:text-blanco",
     },
   ];
 
@@ -247,17 +271,17 @@ export default function AdminPage() {
         <div className="mx-auto max-w-7xl">
           <section
             data-aos="fade-down"
-            className="overflow-hidden rounded-[2rem] border border-madera/20 bg-gradient-to-br from-cafe via-cafe/95 to-cafe/85 px-6 py-7 text-white shadow-2xl dark:border-verde/15 sm:px-8"
+            className="overflow-hidden rounded-[2rem] border border-madera/20 bg-[radial-gradient(circle_at_top_right,_rgba(31,119,164,0.18),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(151,113,74,0.18),_transparent_32%),linear-gradient(135deg,_rgba(255,251,247,0.98),_rgba(247,240,232,0.94))] px-6 py-7 text-cafe shadow-[0_25px_80px_-35px_rgba(61,42,31,0.45)] dark:border-verde/15 dark:bg-[radial-gradient(circle_at_top_right,_rgba(121,195,126,0.16),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(151,113,74,0.14),_transparent_32%),linear-gradient(135deg,_rgba(52,35,26,0.98),_rgba(31,22,17,0.95))] dark:text-white sm:px-8"
           >
             <div className="grid gap-8 xl:grid-cols-[1.5fr_0.9fr] xl:items-end">
               <div>
-                <div className="inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-madera">
+                <div className="inline-flex rounded-full border border-madera/20 bg-white/70 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-azul shadow-sm dark:border-white/10 dark:bg-white/10 dark:text-madera">
                   Operations overview
                 </div>
-                <h1 className="mt-5 max-w-3xl font-display text-4xl font-bold leading-tight text-blanco sm:text-5xl">
+                <h1 className="mt-5 max-w-3xl font-display text-4xl font-bold leading-tight text-cafe dark:text-blanco sm:text-5xl">
                   Welcome back, {user.first_name || user.username}
                 </h1>
-                <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">
+                <p className="mt-4 max-w-2xl text-base leading-relaxed text-cafe/70 dark:text-white/75 sm:text-lg">
                   Your workshop is moving well today. Track revenue, inventory,
                   and order activity from one calm control center.
                 </p>
@@ -271,7 +295,7 @@ export default function AdminPage() {
                   </Link>
                   <Link
                     href="/"
-                    className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:bg-white/10"
+                    className="rounded-full border border-madera/20 bg-white/55 px-5 py-3 text-sm font-semibold text-cafe transition-colors duration-300 hover:bg-white/80 dark:border-white/15 dark:bg-transparent dark:text-white dark:hover:bg-white/10"
                   >
                     Open storefront
                   </Link>
@@ -279,21 +303,26 @@ export default function AdminPage() {
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
-                <div className="rounded-[1.5rem] border border-white/10 bg-white/10 p-5 shadow-lg">
-                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/55">
+                <div className="rounded-[1.5rem] border border-madera/15 bg-white/70 p-5 shadow-lg dark:border-white/10 dark:bg-white/10">
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cafe/45 dark:text-white/55">
                     Inventory health
                   </p>
                   <div className="mt-4 flex items-end justify-between gap-4">
                     <div>
-                      <p className="text-4xl font-display font-bold text-white">
+                      <p className="text-4xl font-display font-bold text-cafe dark:text-white">
                         {inventoryHealth}%
                       </p>
-                      <p className="mt-1 text-sm text-white/65">
+                      <p className="mt-1 text-sm text-cafe/60 dark:text-white/65">
                         Products available for sale right now
                       </p>
                     </div>
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-madera">
-                      <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-madera/10 text-azul dark:bg-white/10 dark:text-madera">
+                      <svg
+                        className="h-7 w-7"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -305,16 +334,16 @@ export default function AdminPage() {
                   </div>
                 </div>
 
-                <div className="rounded-[1.5rem] border border-white/10 bg-gradient-to-br from-white/15 to-white/5 p-5 shadow-lg">
-                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/55">
+                <div className="rounded-[1.5rem] border border-madera/15 bg-gradient-to-br from-white/80 to-madera/10 p-5 shadow-lg dark:border-white/10 dark:from-white/15 dark:to-white/5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cafe/45 dark:text-white/55">
                     Next priority
                   </p>
-                  <p className="mt-3 text-2xl font-display font-bold text-white">
+                  <p className="mt-3 text-2xl font-display font-bold text-cafe dark:text-white">
                     {lowStockProducts.length > 0
                       ? `${lowStockProducts.length} items need stock review`
                       : "Inventory is looking healthy"}
                   </p>
-                  <p className="mt-2 text-sm leading-relaxed text-white/65">
+                  <p className="mt-2 text-sm leading-relaxed text-cafe/60 dark:text-white/65">
                     {lowStockProducts.length > 0
                       ? "Start with the products that are almost gone to keep the storefront ready."
                       : "No urgent restock alerts right now. Great moment to focus on growth."}
@@ -428,7 +457,9 @@ export default function AdminPage() {
                           <p className="text-xs uppercase tracking-[0.18em] text-cafe/45 dark:text-blanco/45">
                             Items
                           </p>
-                          <p className="mt-1 font-medium">{order.items.length}</p>
+                          <p className="mt-1 font-medium">
+                            {order.items.length}
+                          </p>
                         </div>
                         <div>
                           <p className="text-xs uppercase tracking-[0.18em] text-cafe/45 dark:text-blanco/45">
@@ -578,7 +609,12 @@ export default function AdminPage() {
                   ) : (
                     <div className="rounded-[1.5rem] border border-dashed border-madera/20 px-5 py-8 text-center dark:border-verde/15">
                       <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-300">
-                        <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg
+                          className="h-7 w-7"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
