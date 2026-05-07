@@ -98,9 +98,26 @@ export function ProductProvider({ children }: { children: ReactNode }) {
         throw new Error("Failed to fetch categories");
       }
 
-      setCategories(categoriesData);
+      const categoryArray = Array.isArray(categoriesData)
+        ? categoriesData
+        : categoriesData.results ||
+          categoriesData.data ||
+          categoriesData.categories ||
+          [];
+
+      const parsedCategories = categoryArray
+        .map((category: any) => ({
+          id: Number(category?.id ?? category?.pk ?? category?.value ?? 0),
+          name: String(
+            category?.name ?? category?.title ?? category?.slug ?? "",
+          ),
+        }))
+        .filter((category: Category) => category.id > 0 && category.name);
+
+      setCategories(parsedCategories);
     } catch (e) {
       console.error("Error fetching categories:", e);
+      setCategories([]);
     } finally {
       setIsLoading(false);
     }

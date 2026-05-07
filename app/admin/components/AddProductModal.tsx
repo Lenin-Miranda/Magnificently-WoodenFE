@@ -35,6 +35,7 @@ export default function AddProductModal() {
     useState<Partial<Product>>(emptyProduct);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const safeCategories = Array.isArray(categories) ? categories : [];
 
   useEffect(() => {
     if (showAddModal && selectedProduct) {
@@ -65,10 +66,10 @@ export default function AddProductModal() {
 
   // Fetch categories when modal opens
   useEffect(() => {
-    if (showAddModal && categories.length === 0) {
+    if (showAddModal && safeCategories.length === 0) {
       fetchCategories();
     }
-  }, [showAddModal, categories.length, fetchCategories]);
+  }, [showAddModal, safeCategories.length, fetchCategories]);
 
   const handleInputChange = (
     field: keyof Product,
@@ -253,7 +254,7 @@ export default function AddProductModal() {
                     required
                   >
                     <option value="">Select category</option>
-                    {categories.map((category) => (
+                    {safeCategories.map((category) => (
                       <option key={category.id} value={category.id}>
                         {category.name}
                       </option>
